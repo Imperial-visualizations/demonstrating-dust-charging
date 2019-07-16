@@ -1,9 +1,11 @@
 /*jshint esversion: 6 */
 $(window).on('load', function() {//main  
+
     const dom = {
         gSlider: $("input#gamma"),//gamma slider
-        jSlider: $("input#j"),//j slider
+        jSlider: $("input#jnorm"),//j slider
     };
+
     let plt = {//layout of graph
             layoutJ: {
                 autosize: true,
@@ -48,14 +50,28 @@ $(window).on('load', function() {//main
                     l: 40, r: 5, b: 40, t: 50, pad: 10
                 },
             },
-            layoutColour: {
+            layoutFloating: {
                 autosize: true,
-                margin: {
-                    l: 40, r: 40, b: 40, t: 40, pad: 10
+                xaxis: {
+                    title: "P",
+                    type: 'log',
                 },
-            }
+                yaxis: {
+                    title: "Phi Surface",
+                },
+                margin: {
+                    l: 40, r: 5, b: 40, t: 50, pad: 10
+                },
+            },
         };
-
+    function logspace(a,b,c){
+        let d = numeric.linspace(a,b,c)
+        let e = []
+        for(let i = 0;i < c;i++){
+            e.push(math.pow(10,d[i]));
+        }
+        return e;
+    }
     function find_phi(j,g,root_prec){
 
         let target = j/g;
@@ -167,7 +183,7 @@ $(window).on('load', function() {//main
         return new_cond;
     }
 
-    function results(h,j,g,root_prec){
+    function results(h,j,g,root_prec,rho_up_lim,rho_lower_lim){
         //console.log(j);
         let current_step = inital_conditions(j,g,root_prec);
         //console.log("current_step - [inital_rho,inital_u,inital_v]");
@@ -175,7 +191,7 @@ $(window).on('load', function() {//main
         let phi_data = [];
         let rho_data = [];
 
-        if (h > 0 && current_step[0] >= 15){
+        if (h > 0 && current_step[0] >= rho_up_lim){
             return [phi_data,rho_data];
         }
 
@@ -183,14 +199,14 @@ $(window).on('load', function() {//main
         phi_data.push(current_step[1]);
         
         if(h > 0){
-            while(current_step[0] > Math.abs(h) && current_step[0] <= 15){
+            while(current_step[0] > (rho_lower_lim + Math.abs(h)) && current_step[0] <= rho_up_lim){
                 current_step = step(current_step[0],current_step[1],current_step[2],h,j);//(rho,u,v,h,J)
                 rho_data.push(current_step[0]);
                 phi_data.push(current_step[1]);
                 
             } 
         }else{
-            while(current_step[0] > Math.abs(h)){
+            while(current_step[0] > (rho_lower_lim + Math.abs(h)) ){
                 current_step = step(current_step[0],current_step[1],current_step[2],h,j);
                 rho_data.push(current_step[0]);
                 phi_data.push(current_step[1]);
@@ -209,12 +225,13 @@ $(window).on('load', function() {//main
 
         let j_range = [0.1,0.3,1,3,10];
         let rootprec = 10**(-8);
-        let h = 0.001;
-
+        let h = 0.1;
+        let rho_up_lim = 15
+        let rho_lower_lim = 0
         for (let i = 0; i< j_range.length; i++){
             //console.log(j_range[i]);
-            let data_forwards = results(h,j_range[i],g,rootprec);  //(n,h,j,g,root_prec)
-            let data_backwards = results(-h,j_range[i],g,rootprec);  //(n,h,j,g,root_prec)
+            let data_forwards = results(h,j_range[i],g,rootprec,rho_up_lim,rho_lower_lim);  //(n,h,j,g,root_prec)
+            let data_backwards = results(-h,j_range[i],g,rootprec,rho_up_lim,rho_lower_lim);  //(n,h,j,g,root_prec)
             //console.log(data_forwards);
             //console.log(data_backwards);
 
@@ -311,15 +328,18 @@ $(window).on('load', function() {//main
         //console.log(plot_data.length);
         return plot_data;
     }
-
+/*
     function produce_plot_colour(){
-        $("#j-display").html($("input#j").val());//update display
 
-        let j = parseFloat($("input#j").val());
+        $("#j-display").html($("input#jnorm").val());//update display
+
+        let j = parseFloat($("input#jnorm").val());
 
         let g = 1e3
         let rootprec = 10**(-8);
-        let h = 0.01;
+        let h = 0.1;
+
+        let plot_data = [];
 
         let data_forwards = results(h,j,g,rootprec);  //(n,h,j,g,root_prec)
         let data_backwards = results(-h,j,g,rootprec);  //(n,h,j,g,root_prec)
@@ -337,74 +357,240 @@ $(window).on('load', function() {//main
         
         let rho_data = rho_data_plot_b.concat(rho_data_plot_f);
         let phi_data = phi_data_plot_b.concat(phi_data_plot_f);
-        //let theta_array = numeric.linspace(0,2*Math.pi(),rho_data.length);
-        phi_array = [];
-        
-        console.log("shifting array");
-        console.log(rho_data.length);
-        
-        for(let i = 0; i< rho_data.length; i++){
-            phi_array.push([]);
-            for(let j = 0; j< rho_data.length; j++){
-                let r = math.round((i**2 + j**2)**0.5);
-                phi_array[i][j] = phi_data[r];
-            }   
-        }
 
-        let data = [{
-            z: phi_array,
-            type: 'contour'
+        //console.log("rho_data");
+        rho_data = math.divide(rho_data,h);
+        //rho_data = math.round(rho_data,1)// number of decimal places of h
+        //console.log(rho_data);
+
+        let length_array = rho_data.length;
+
+        //let theta_array = numeric.linspace(0,2*Math.pi(),rho_data.length);
+        let phi_array_quarter = make2Darray(length_array,length_array);
+
+        for(let i = 0; i< length_array; i++){
+            for(let j = i; j < length_array; j++){
+                //console.log("in loop");
+                let r = ((rho_data[i])**2 + (rho_data[j])**2)**0.5;
+                //console.log(r);
+                //let r_round = math.round(r);
+                let rho_val = math.round(r);//number of decimal places of h
+                //console.log(rho_val);
+                //let rho_index = rho_data.indexOf(rho_val);
+                //console.log(rho_index);
+                let phi_val = phi_data[rho_val];
+                phi_array_quarter[i][j] = phi_val;
+                phi_array_quarter[j][i] = phi_val;
             }
-        ];
-        return data;
+        }
+        //console.log("quarter array");
+        //console.log(phi_array_quarter);
+        //let phi_array = make2Darray(2*length_array,2*length_array);
+        let data = {
+            z: phi_array_quarter,
+            type: 'contour'
+            };
+        plot_data.push(data);
+        //console.log(data);
+        return plot_data;
     }
 
-    function update_graph(identifier){//update animation
-        switch(identifier) {
-            case "phi":
-                Plotly.animate("graph_phi",
-                    {data: produce_plot()},//updated data
-                    {
-                        fromcurrent: true,
-                        transition: {duration: 0,},
-                        frame: {duration: 0, redraw: false,},
-                        //mode: "afterall"
-                        mode: "immediate"
-                    }
-                );
-              // code block
-                break;
-            case "phi_colour":
-                Plotly.animate("graph_phi_colour",
-                    {data: produce_plot_colour()},//updated data
-                    {
-                        fromcurrent: true,
-                        transition: {duration: 0,},
-                        frame: {duration: 0, redraw: false,},
-                        //mode: "afterall"
-                        mode: "immediate"
-                    }
-                ); 
-                break;             // code block
-          }
+    function make2Darray(cols,rows){
+        let arr = new Array(cols);
+        for (let i = 0; i< arr.length; i++){
+            arr[i] = new Array(rows);
+        }
+        //console.log("arr");
+        //console.log(arr);
+        return arr;
+    };
+*/
+    function produce_plot_floating(){
+
+        let plot_data = [];
+        let g;
+        
+        //let j_range = [0.1,0.3,1,3,10];
+        //let j_range = numeric.linspace(0.1,20,100);
+        let j_range = logspace(-4,4,200);
+        //console.log("hi");
+        //console.log(j_range);
+
+        let rootprec = 10**(-8);
+        let h;
+        let rho_up_lim;
+        let rho_lower_lim = 0;
+        let Z = 1;
+        let alpha = (Z**0.5)*(1836/(4*Math.PI));
+        //console.log(alpha);
+        //let min_diff = 0.005;
+        let P_array = [];
+        let n_s_phi_array = [];
+
+        for (let i = 0; i< j_range.length; i++){
+            //console.log(i);
+            //console.log(j_range[i]);
+            if (j_range[i] < 1){
+                g = 1e3;
+                h = 0.01;
+                rho_up_lim = 15;
+
+            }
+            else{
+                g = 1e3;
+                h = 0.01;
+                rho_up_lim = 15;
+            }
+
+
+            let data_forwards = results(h,j_range[i],g,rootprec,rho_up_lim,rho_lower_lim);  //(n,h,j,g,root_prec)#
+            let data_backwards = results(-h,j_range[i],g,rootprec,rho_up_lim,rho_lower_lim);  //(n,h,j,g,root_prec)
+            rho_data_plot_b = data_backwards[0];
+            phi_data_plot_b = data_backwards[1];
+
+            rho_data_plot_b.reverse();
+            phi_data_plot_b.reverse();
+            rho_data_plot_b.pop();
+            phi_data_plot_b.pop();
+
+            rho_data_plot_f = data_forwards[0];
+            phi_data_plot_f = data_forwards[1];
+            //console.log(rho_data_plot_b);
+            //console.log(rho_data_plot_f);
+            
+
+            let data = [rho_data_plot_b.concat(rho_data_plot_f), phi_data_plot_b.concat(phi_data_plot_f)];
+            //console.log(data);
+            /*
+            let v_line = {
+                x: data[0],
+                y: data[1],
+                type: 'lines',
+                name: 'Phi curve J = ' + j_range[i].toString(),
+                line: {
+                    dash: 'dashdot',
+                    width: 4
+                  }
+            };
+            plot_data.push(v_line);
+            */
+
+            
+            let n_s_phi = math.log(    math.divide(     math.multiply(      math.dotMultiply(data[0],data[0]),    alpha),      j_range[i])      );
+            /*
+            let v_s_line = {
+                x: data[0],
+                y: n_s_phi,
+                type: 'lines',
+                name: 'Phi Surface curve J = ' + j_range[i].toString(),
+                line: {
+                    dash: 'dot',
+                    width: 4
+                  }
+            };
+           
+            plot_data.push(v_s_line);
+            */
+
+             
+            //console.log("found;" + i.toString());
+            let diff_NaN = math.abs(math.subtract(data[1],n_s_phi));
+
+            //console.log(diff_NaN);
+            let diff_no_NaN  = diff_NaN.filter(function (value) {
+                return !Number.isNaN(value);
+            });
+            //console.log("min");
+            //console.log(Math.min.apply(diff));
+            //console.log(diff_no_NaN);
+            let diff = math.abs(diff_no_NaN);
+
+            /*
+            let found = diff.find(function(element){
+                return element < min_diff;
+                });
+            */
+                
+            let found = Math.min(...diff);//new spread operator
+            //console.log(found);
+            let rho_index = diff.indexOf(found);
+            //console.log(rho_index);
+
+            let P_val = data[0][rho_index];
+
+            P_array.push(P_val);
+            n_s_phi_array.push(n_s_phi[rho_index]);
+            };
+
+        //console.log("plot data");
+        //console.log(P_array);
+        //console.log(n_s_phi_array);
+    
+        let n_s_line = {
+            x: P_array,
+            y: n_s_phi_array,
+            type: 'scatter',
+            name: 'Phi Surface curve',
+        };
+        plot_data.push(n_s_line);
+        return plot_data;
+    }
+
+    function update_graph(){//update animation
+        //console.log("update");
+        //console.log();
+
+                //console.log("phi");
+        Plotly.animate("graph_phi",
+            {data: produce_plot()},//updated data
+            {
+                fromcurrent: true,
+                transition: {duration: 0,},
+                frame: {duration: 0, redraw: false,},
+                //mode: "afterall"
+                mode: "immediate"
+            }
+        );
+        /*
+        Plotly.animate("graph_phi_colour",
+            {data: produce_plot_colour()},//updated data
+            {
+                fromcurrent: true,
+                transition: {duration: 0,},
+                frame: {duration: 0, redraw: false,},
+                //mode: "afterall"
+                mode: "immediate"
+            }
+        ); */
+        Plotly.animate("graph_floating",
+            {data: produce_plot_floating()},//updated data
+            {
+                fromcurrent: true,
+                transition: {duration: 0,},
+                frame: {duration: 0, redraw: false,},
+                //mode: "afterall"
+                mode: "immediate"
+            }
+        ); 
+          
     }
 
     function initial(){
         
         Plotly.purge("graph_J");
         Plotly.newPlot("graph_J", produce_J_plot(),plt.layoutJ);
-        console.log("j plot");
+        //console.log("j plot");
 
         Plotly.purge("graph_phi");
         Plotly.newPlot("graph_phi", produce_plot(),plt.layoutKA);
-        console.log("phi plot");
+        //console.log("phi plot");
 
-        Plotly.purge("graph_phi_colour");
-        Plotly.newPlot("graph_phi_colour", produce_plot_colour(),plt.layoutColour);
-        console.log("phi colour plot");
+        Plotly.purge("graph_floating");
+        Plotly.newPlot("graph_floating", produce_plot_floating(),plt.layoutFloating);
 
-        dom.gSlider.on("change", update_graph("phi"));
-        dom.jSlider.on("change", update_graph("phi_colour"));
+        //dom.gSlider.on("change", update_graph());
+        //dom.jSlider.on("change", update_graph());
+        //dom.dSlider.on("change", update_graph());
 
     }
     initial();

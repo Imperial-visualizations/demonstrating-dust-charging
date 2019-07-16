@@ -1,0 +1,110 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>OML - Charging Models - Imperial Visualisations</title>
+    <link rel="icon" href="https://www.imperial.ac.uk/T4Assets/favicon-196x196.png" type="image/x-icon">
+        <link rel="stylesheet" href="https://rawgit.com/Imperial-visualizations/Physics-Visualizations/master/css/skeleton.css">
+   <link rel="stylesheet" href="https://rawgit.com/Imperial-visualizations/Physics-Visualizations/master/css/style.css">
+
+   <script src="scripts/plotly-1.47.4.min.js"></script>
+    <script src="https://code.jquery.com/jquery-3.2.1.min.js"></script>
+    <script src="scripts/numeric/src/numeric.js"></script>
+    <script src="https://unpkg.com/mathjs@6.0.2/dist/math.min.js"></script>
+    <script type="text/x-mathjax-config">
+        MathJax.Hub.Config({
+          extensions: ["tex2jax.js"],
+          jax: ["input/TeX", "output/HTML-CSS"],
+          tex2jax: {
+            inlineMath: [ ['$','$'], ["\\(","\\)"] ],
+            displayMath: [ ['$$','$$'], ["\\[","\\]"] ],
+            processEscapes: true
+          },
+          "HTML-CSS": { fonts: ["TeX"] }
+        });
+      </script>
+    <script type="text/javascript" src="scripts/MathJax-master/MathJax.js"></script>
+    <meta http-equiv="Content-Type" content="text/html;charset=UTF-8">
+
+</head>
+
+<body>
+<div class="container">
+    <div class = "row">
+            <div class = "twelve columns">
+                <p style="font-style: bold; font-size:large">
+                    <h3>Orbital Limited Motion - OML</h3>
+                    (The floating potential of spherical probes and
+                    dust grains. II: Orbital motion theory)"""If ions are cold, the
+                    radial motion theory can be used, as developed by Allen et al. (1957). The small
+                    probe limit of this theory has been examined by Kennedy and Allen (2001). If ion
+                    temperature is considered to be finite the purely radial theory is no longer strictly
+                    applicable""", """The simplest orbital theory is orbital motion limited (OML), which gives
+                    a surface potential independent of the dust particle’s size"""
+                    
+                    Bray """ We consider ions approaching from infinity with velocity $v_{\inf}$. Ions which have a certain critical parameter $\eta_c$ will follow an unspecified trajectory which just grazes the surface of the grain,  and ions with parameter less than $\eta_c$ will be collected at the surface grain"""
+
+                    """It is notable that Equation 2.45  produces a result for the floating potential that is independent of  grain  radius,  in  direct  contradiction  to  ABR  theory  which  finds  the  floating  potential tending to zero as the normalised dust radius tends to 0"""
+                    
+                    OML theory from Shukla:
+                    we cosider that from and infinite distance a plasma particle j i sapproching a spherical dust grainn of radius $r_d$ and charge $q_d$. When the plasma particle enters the debye sphere it feels the influence of dust grain and its path changes due to the electrostatic force. We asssume that $v_j$ and $v_{gj}$ are the speed of the of the plasma particle before and after its grazing collision with the dust grain. it is obvious for a fixed velocity, as we decrease the impact paratmater $b_j$, the plasma particle hits the dust grain. The cross section for charging collisions between the dust and the plasma particle $j$ is $\sigma^d_j = \pi b^2_j$.
+
+                    Conservation of momentum and energy requires that 
+                    $$
+                        m_jv_jb_j = m_jv_{gj}r_d
+                    $$
+                    and 
+                    $$
+                        \frac{1}{2}m_jv^2_j = \frac{1}{2}m_jv^2_{gj} + \frac{q_jq_d}{r_d}
+                    $$
+                    The dust grain charge $q_d$ is related tp the potential difference $\phi_d(= \phi_g - \phi_p)$ between the grain potential $\phi_g$ adn the plasma potenital $\phi_p$ i.e $q_d = C\phi_d$, where capacitance C of the spherical dust grain in a plasma is $C = r_dexp(-r_d/\lambda_d)\simeq r_d$ for $\lambda_d >> r_d$. Using the relation $q_d = r_d\phi_d$ and conservatin of momentum and energy equations one can express $b_j$ in terms of $\phi_d$. Thus $\sigma^d_j$ becomes 
+                    $$\label{eq:sig}
+                        \sigma^d_j = \pi r^2_d(1-\frac{2q_j\phi_d}{m_jv^2_j})
+                    $$
+                    If $f_j(v_j)$ is the velocity distribution of the plasma species at infinite distances from the dust grain, the dust grain current $I_j$ carried by the plasma species $j$ is 
+                    $$\label{eq:I}
+                        I_j = q_j\int_{V^{min}_j}^{\inf}v_j\sigma^d_jf_j(v_j)d\textbf{v}_j
+                    $$
+                    where $V^{min}_j$ is the minimum value of the plasma particle velocity for which the particle hits the dust grain. To approximate $V^{min}_j$ we consider two situations, namely $q_j\phi_d < 0$ and $q_j\phi_d > 0$. When $q_j\phi_d < 0$, the plasma particle and dust grain attract each other and the integration equation is to be preformed over the complete $v_j$ domain. On the other hand, when $q_j\phi_d > 0$, the plasma particle and the dust grain repel each other and hence $V^{min}_j > 0$ in order to allow for a collision between the dust grain and the plasma particle. Thus in this case $V^{min}_j$ becomes
+                    $$
+                        V^{min}_j = (-\frac{2q_j\phi_d}{m_j})^{-0.5}
+                    $$
+                    we further assume that the velocity distribution of the plasma species is Maxwellian, i.e
+                    $$\label{eq:f}
+                        f_j(v_j) = n_j(\frac{m_j}{2\phi k_B T_j})^{3/2}exp(-\frac{m_jv_j^2}{2k_BT_j})
+                    $$
+                    where $n_j$ is the plasma particle number density. Substituting equation \ref{eq:sig} and \ref{eq:f} into \ref{eq:I}, expressing the result in spherical polar coordinates and preforming integration we can write the charging current $I_j$ for attractive($q_j\phi_d < 0$) potenials as 
+                    $$
+                        I_j = 4\pi r^2_d n_j q_j (\frac{k_BT_j}{2\pi m_j})^{1/2}(1 - \frac{q_j\phi_d}{k_B T_j})
+                    $$
+                    repulsive($q_j\phi_d > 0$) potentials as 
+                    $$\label{eq:2.2.7}
+                        I_j = 4\pi r^2_d n_j q_j (\frac{k_BT_j}{2\pi m_j})^{1/2}exp(-\frac{q_j\phi_d}{k_B T_j})
+                    $$
+                    equation \ref{eq:2.2.7} is valid for any repulsive potential in a maxwellian plasma as long as the surface potential mas a monotonic behaviour outwards from the surface as well as when the streaming speed $v_{j0}$ is much smaller than the thermal speed $V_{Tj}$.
+
+                    \section{Lambert W Function}
+                    the lameber W fnction W(z) is defined as the inverse function fo $f(x) = xexp(x)$ for any complex number Z so that its defining proerty is 
+                    $$
+                        Z = W(Z)exp(W(Z))
+                    $$
+                    by multiplying equation 2.45(FROM BRAY) by $exp(-\theta)$ and rearranging we see that the OML floating condition can be thought of as being of the form $\Gamma exp(\gamma) = \kappa(\mu,\phi)$. The solution of this expression may be written as $\Gamma = W(\kappa(\mu, \theta))$. Subsequently, it is found that equation 2.48 has an analytic solution which can be written as 
+                    $$
+                        (\theta + \Phi^f_d)exp(\theta + \Phi^f_d) = \sqrt{\mu \theta}exp(\theta)
+                    $$
+                    $$
+                        \Phi^f_d = W[\sqrt{\mu \theta}exp(\theta)] - \theta
+                    $$
+                    </p>
+            </div>
+    </div>
+    <div class = "row">
+        <div class="twelve columns">
+            <div id="graph_surface_potential" ></div>
+        </div>
+    </div>   
+</div>
+<script src="scripts/OML.js"></script>
+</body>
+</html>
