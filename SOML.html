@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>SOML - Charging Models - Imperial Visualisations</title>
+    <link rel="icon" href="https://www.imperial.ac.uk/T4Assets/favicon-196x196.png" type="image/x-icon">
+        <link rel="stylesheet" href="https://rawgit.com/Imperial-visualizations/Physics-Visualizations/master/css/skeleton.css">
+   <link rel="stylesheet" href="https://rawgit.com/Imperial-visualizations/Physics-Visualizations/master/css/style.css">
+
+   <script src="scripts/plotly-1.47.4.min.js"></script>
+    <script src="https://code.jquery.com/jquery-3.2.1.min.js"></script>
+    <script src="scripts/numeric/src/numeric.js"></script>
+    <script src="https://unpkg.com/mathjs@6.0.2/dist/math.min.js"></script>
+    <script type="text/x-mathjax-config">
+        MathJax.Hub.Config({
+          extensions: ["tex2jax.js"],
+          jax: ["input/TeX", "output/HTML-CSS"],
+          tex2jax: {
+            inlineMath: [ ['$','$'], ["\\(","\\)"] ],
+            displayMath: [ ['$$','$$'], ["\\[","\\]"] ],
+            processEscapes: true
+          },
+          "HTML-CSS": { fonts: ["TeX"] }
+        });
+      </script>
+    <script type="text/javascript" src="scripts/MathJax-master/MathJax.js"></script>
+    <meta http-equiv="Content-Type" content="text/html;charset=UTF-8">
+
+</head>
+
+<body>
+<div class="container">
+    <div class = "row">
+            <div class = "twelve columns">
+                <p style="font-style: bold; font-size:large">
+                    <h3>DRAFT/COPIED - Shifted Orbital Limited Motion - SOML</h3>
+                    Now we consider a more general dusty plasma situation in which the ions have some finite streaming speed. 
+                    For such a situation the electron current is as before, but the ion current will be different and can be 
+                    calculated by using the ion distribution function. A pain to solve the maths is more complex, but same process,
+                    need error function. Problems: The first is the problem shared from its parent theory OML that it fails to
+                    take into account the potential barriers arising from the formation of a sheath for the situation $A≫ 1$. 
+                    In addition SOML is fundamentally invalid from a theoretical perspective as strictly speaking the presence
+                    of a drifting Maxwellian distribution invalids the OML approach owing to the breaking of spherical symmetry
+                    and subsequently  conservation  of  angular  momentum.   Recall  it  is  precisely  conservation  of 
+                    angular  momentum  which  OML  uses  to  place  a  limit  on  the  ion  current  onto  the  grain....
+                </p>
+            </div>
+    </div>
+    <div class = "row">
+        <div class="twelve columns">
+            <div id="graph_surface_potential" ></div>
+        </div>
+    </div>   
+</div>
+<script src="scripts/SOML.js"></script>
+</body>
+</html>
