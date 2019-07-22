@@ -4,12 +4,12 @@ $(window).on('load', function() {//main
         layoutSurface: {
             autosize: true,
             xaxis: {
-                range: [-2,2],
+                range: [-6,4],
                 title: "Beta",
                 type: 'log',
             },
             yaxis: {
-                range: [1, 3.5],
+                range: [0, 4],
                 title: "Normalized Surface Potential",
             },
             margin: {
@@ -71,6 +71,53 @@ $(window).on('load', function() {//main
         return W_0; 
     }
 
+    function SMOML_find_surface_potential(beta,u){
+        let m_i = 1.67*1e-27;
+        let m_e = 9.11*1e-31;
+        let rootprec = 10**(-12);
+        let mu = (m_i/m_e);
+        let a_0 = 1;
+        let gamma = 5/3;
+
+        let p_1 = (((2*Math.PI*beta)**0.5)/(4*u))*(1 + (u**2)/beta)*erf(u/((2*beta)**0.5)) + 0.5*Math.exp(-1*(u**2)/(2*beta));
+        let p_2 = (((Math.PI*beta)/(2*(u**2)))**0.5)*erf(u/((2*beta)**0.5));
+        let c = 0.5*Math.log(2*Math.PI*(1/mu)*(1 + beta*gamma));
+        let k = (((mu*beta)**0.5)/p_2)*Math.exp(((beta*p_1)/p_2) + c);
+
+        let W_0_H = find_W_H(a_0,k,rootprec);
+
+        function find_eta(W_0,beta,c,p_1,p_2){
+            return W_0 - (c + p_1*beta/p_2);
+        }
+
+        let result = find_eta(W_0_H,beta,c,p_1,p_2);
+
+        return result;
+    }
+
+    function SMOML_produce_surface_potenial_plot(){//produce data for fresnel curves
+
+        let beta = logspace(-6,4,5000);
+        let u_array = [1,0.5,0.25];      
+        let plot_data = [];
+        
+        for(let j=0;j<u_array.length;j++){
+            let data_H = [];
+            for(let i = 0;i<beta.length;i++){
+                let val = SMOML_find_surface_potential(beta[i],u_array[j]);
+                data_H.push(val);
+            }
+            let sp_line_H = {
+                x: beta,
+                y: data_H,
+                type: 'scatter',
+                name: 'SMOML: Norm Surface potential H, u = ' + u_array[j].toString(),
+            };
+            plot_data.push(sp_line_H);
+        }
+        return plot_data;
+    }
+
     function SOML_find_surface_potential(beta,u){
         let m_i = 1.67*1e-27;
         let m_e = 9.11*1e-31;
@@ -96,7 +143,7 @@ $(window).on('load', function() {//main
 
     function SOML_produce_surface_potenial_plot(){//produce data for fresnel curves
 
-        let beta = logspace(-2,2,1000);
+        let beta = logspace(-6,4,5000);
         let u_array = [1,0.5,0.25];      
         let plot_data = [];
         
@@ -141,7 +188,7 @@ $(window).on('load', function() {//main
 
     function MOML_produce_surface_potenial_plot(){//produce data for fresnel curves
 
-        let beta = logspace(-2,2,1000);        
+        let beta = logspace(-6,4,5000);        
         let plot_data = [];
         let data_H = [];
 
@@ -184,7 +231,7 @@ $(window).on('load', function() {//main
 
     function OML_produce_surface_potenial_plot(){//produce data for fresnel curves
 
-        let beta = logspace(-2,2,1000);
+        let beta = logspace(-6,4,5000);
         let z = 1;      
         let plot_data = [];
         let data_H = [];
@@ -205,18 +252,19 @@ $(window).on('load', function() {//main
         return plot_data;
     }
 
-    function plot_oml_moml_soml(){
+    function plot_oml_moml_soml_smoml(){
         let oml = OML_produce_surface_potenial_plot();
         let moml = MOML_produce_surface_potenial_plot();
         let soml = SOML_produce_surface_potenial_plot();
-        let data_surface = oml.concat(moml,soml);
+        let smoml = SMOML_produce_surface_potenial_plot();
+        let data_surface = oml.concat(moml,soml,smoml);
         return data_surface;
     }
 
     function initial(){
 
         Plotly.purge("graph_surface_potential");
-        Plotly.newPlot("graph_surface_potential", plot_oml_moml_soml(),plt.layoutSurface);
+        Plotly.newPlot("graph_surface_potential", plot_oml_moml_soml_smoml(),plt.layoutSurface);
 
     }
     initial();
