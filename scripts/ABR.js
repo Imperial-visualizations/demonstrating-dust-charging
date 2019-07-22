@@ -296,7 +296,7 @@ $(window).on('load', function() {//main
         return plot_data;
     }
 
-    function RK45(rho,u,v,h,J){
+    function RK45(rho,u,v,h,J,eps){
 
         let a_2 = 1/5
         let a_3 = 3/10
@@ -385,69 +385,47 @@ $(window).on('load', function() {//main
             let k4 = k_4_45(rho,beta,h,J,k1,k2,k3);
             let k5 = k_5_45(rho,beta,h,J,k1,k2,k3,k4);
             let k6 = k_6_45(rho,beta,h,J,k1,k2,k3,k4,k5);
-            //console.log("k45")
-            //console.log(k1,k2,k3,k4,k5,k6);
             let beta_5 = math.add(beta,math.multiply(c_1,k1),math.multiply(c_2,k2),math.multiply(c_3,k3),math.multiply(c_4,k4),math.multiply(c_5,k5),math.multiply(c_6,k6));
             let beta_4 = math.add(beta,math.multiply(c_1_s,k1),math.multiply(c_2_s,k2),math.multiply(c_3_s,k3),math.multiply(c_4_s,k4),math.multiply(c_5_s,k5),math.multiply(c_6_s,k6));
             return [beta_5,beta_4]
         }
 
-        function step(rho,u,v,h,J){
-            let eps = 1e-9
-            let delta_0 = math.multiply(eps,[u,v]);
+        function step(rho,u,v,h,J,eps){
+            let delta_0 = math.abs(math.multiply(eps,[u,v]));
             let S = 0.95;
-            let h_0;
-
+            let h_new;
             let rk = RK_fomulae(rho,u,v,h,J)
-            //console.log(rk);
             let beta_5 = rk[0];
             let beta_4 = rk[1];
-            let delta_1 = math.subtract(beta_5,beta_4)
-            //console.log("next step");
-            //console.log("delta 0")
-            //console.log(delta_0);
-            //console.log("difference")
-            //console.log(beta_5);
-            //console.log(beta_4);
+            let delta_1 = math.abs(math.subtract(beta_5,beta_4));
+            let R = Math.max(...math.abs(math.dotDivide(delta_1,delta_0)));
 
-
-            let dv = math.abs(math.dotDivide(delta_0,delta_1));
-            //console.log(dv)
-            if((delta_0 > delta_1[0]) ||(delta_0 > delta_1[0])){
-                //console.log("h too small");
-                h_0 = math.multiply(S*h,math.exp(math.multiply(0.2,math.log(dv))))
+            if(R > 1){
+                let h_loop = math.multiply(S*h,Math.pow(R,-0.25));
+                while(R > 1){
+                    rk = RK_fomulae(rho,u,v,h_loop,J);
+                    beta_5 = rk[0];
+                    beta_4 = rk[1];
+                    delta_1 = math.subtract(beta_5,beta_4);
+                    R = Math.max(...math.abs(math.dotDivide(delta_1,delta_0)));
+                }
+                h_new = h_loop;
+            }else{
+                h_new = math.multiply(S*h,Math.pow(R,-0.2));
             }
-            else{
-                h_0 = math.multiply(S*h,math.exp(math.multiply(0.25,math.log(dv))))
-            }
-            //let h_0_0 = h*(Math.pow(dv[0],0.2))
-            //let h_0_1 = h*(Math.pow(dv[1],0.2))
-            //let h_0 = [h_0_0,h_0_1];
-            //console.log(h_0)
-            //let h_0 = math.exp(math.multiply(0.2,math.log(dv)))
-
-            let h_new = Math.min(...h_0);
-            //console.log("h new");
-            //console.log(h_new);
             let new_rho = rho+h_new;
-            //console.log(new_rho)
-            //console.log(new_rho,beta_5[0],beta_5[1]);
-
             let new_cond = [new_rho,beta_5[0],beta_5[1],h_new];
-            //console.log(new_cond);
             return new_cond;
         }
-        let new_cond = step(rho,u,v,h,J)
+        let new_cond = step(rho,u,v,h,J,eps);
         return new_cond;
     }
 
-    function results_eta(a_0,n,j,g,root_prec){
+    function results_eta(a_0,n,j,g,root_prec,eps){
 
         let current_step = inital_conditions(a_0,j,g,root_prec);
-        //console.log(current_step);
         let h = -1*current_step[0]/n;
         current_step.push(h);
-        //console.log(current_step);
         let phi_data = [];
         let rho_data = [];
         let h_data = [];
@@ -455,57 +433,42 @@ $(window).on('load', function() {//main
         rho_data.push(current_step[0]);
         phi_data.push(current_step[1]);
         h_data.push(current_step[3]);
-        //console.log("start");
-        //console.log(current_step[0])
-        //console.log(current_step[3])
 
         while(current_step[0] > Math.abs(h)){
-            
-            current_step = RK45(current_step[0],current_step[1],current_step[2],current_step[3],j);//(rho,u,v,h,J)
-            //console.log(current_step[0]);
-            if (current_step[3] == 0){
-                break
-            }
-            //console.log(current_step);
+            current_step = RK45(current_step[0],current_step[1],current_step[2],current_step[3],j,eps);//(rho,u,v,h,J)
             rho_data.push(current_step[0]);
             phi_data.push(current_step[1]);
             h_data.push(current_step[3]);
         }
+
         return [rho_data,phi_data,h_data];
     }
 
     function produce_plot_floating(){
         let plot_data = [];
         let g = 1e3;
-        let j_range = logspace(-6,6,500);
+        let eps = 1e-12;
+        let points = 500;
+        let j_range = logspace(-6,6,points);
         let n = 5000;
-        let rootprec = 10**(-8);
+        let rootprec = 10**(-12);
         let a_0 = 0.1;
         let Z = 1;
         let alpha = (Z**0.5)*(1836/(4*Math.PI));
         let P_array = [];
         let n_s_phi_array = [];
-        let found_l = [];
 
         for (let i = 0; i< j_range.length; i++){
-            console.log(i);
-            let data = results_eta(a_0,n,j_range[i],g,rootprec); //(a_0,n,j,g,root_prec)
-            //console.log("data");
-            //console.log(data);
+            console.log((math.round(100*i/points,1)).toString()+"%");
+            let data = results_eta(a_0,n,j_range[i],g,rootprec,eps); //(a_0,n,j,g,root_prec)
             let n_s_phi = math.log(math.divide(math.multiply(math.dotMultiply(data[0],data[0]),alpha),j_range[i]));
-
             let diff = math.abs(math.subtract(data[1],n_s_phi));
-
             let found = Math.min(...diff);//new spread operator
-            found_l.push(found);
             let rho_index = diff.indexOf(found);
             let P_val = data[0][rho_index];
             P_array.push(P_val);
             n_s_phi_array.push(n_s_phi[rho_index]);
             };
-
-        console.log(P_array);
-        console.log(n_s_phi_array);
         let n_s_line = {
             x: P_array,
             y: n_s_phi_array,
