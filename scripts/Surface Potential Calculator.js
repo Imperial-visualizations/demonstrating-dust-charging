@@ -247,16 +247,16 @@ $(window).on('load', function() {//main
 
         function produce_plot_floating(){
             let g = 1e3;
-            let rootprec = 10**(-12);
             let a_0 = 0.1;
             let n = 5000
 
             let eps = 10**parseFloat(document.getElementById('EpsController').value); 
             let J = 10**parseFloat(document.getElementById('JController').value); 
             let Z = parseFloat(document.getElementById('ZController').value); 
+            let root =  10**(parseFloat(document.getElementById('RootController').value));
             let alpha = (Z**0.5)*(1836/(4*Math.PI));
 
-            let data = results_eta(a_0,n,J,g,rootprec,eps); //(a_0,n,j,g,root_prec)
+            let data = results_eta(a_0,n,J,g,root,eps); //(a_0,n,j,g,root_prec)
             let n_s_phi = math.log(math.divide(math.multiply(math.dotMultiply(data[0],data[0]),alpha),J));
             let diff = math.abs(math.subtract(data[1],n_s_phi));
             let found = Math.min(...diff);//new spread operator
@@ -269,99 +269,87 @@ $(window).on('load', function() {//main
     }
 
     function OML_calc(){  
-        function OML_find_surface_potential(beta,Z){
-            let m_i = Z*1.67*1e-27;
-            let m_e = 9.11*1e-31;
-            let rootprec = 10**(-12);
-            let mu = (m_i/m_e);
+        function OML_find_surface_potential(beta,Z,mu,rootprec){
             let a_0 = 1;
 
-            let k = (((mu*beta)**0.5)*Math.exp(beta/Z))/Z;
+            let k = (((mu*beta)**0.5)/Z)*Math.exp(beta/Z);
 
             let W_0_H = find_W_H(a_0,k,rootprec);
 
-            function find_eta(W_0,beta,Z){
-                return W_0 - (beta/Z);
-            }
-
-            let results = find_eta(W_0_H,beta,Z);
+            let results = W_0_H - (beta/Z);
 
             return results;
         }
 
-        function OML_produce_surface_potenial_plot(){//produce data for fresnel curves
+        function OML_produce_surface_potenial_plot(){
+            let m_i = 1.67*1e-27;
+            let m_e = 9.11*1e-31;
+            let mu = (parseFloat(document.getElementById('MuController').value))*(m_i/m_e);
             let beta = 10**(parseFloat(document.getElementById('BetaController').value));
             let Z = parseFloat(document.getElementById('ZController').value); 
-            let val = OML_find_surface_potential(beta,Z);
+            let root =  10**(parseFloat(document.getElementById('RootController').value));
+            let val = OML_find_surface_potential(beta,Z,mu,root);
             return val;
         }
         return OML_produce_surface_potenial_plot();
     }
 
     function MOML_calc(){ 
-        function MOML_find_surface_potential(beta,Z,gamma){
-            let m_i = 1.67*1e-27;
-            let m_e = 9.11*1e-31;
-            let rootprec = 10**(-12);
-            let mu = (m_i/m_e);
+        function MOML_find_surface_potential(beta,Z,gamma,mu,rootprec){
             let a_0 = 1;
 
             let c = 0.5*Math.log(2*Math.PI*(1/mu)*(1 + beta*gamma));
-            let k = ((mu*beta)**0.5)*Math.exp(beta + c);
+            let k = (((mu*beta)**0.5)/Z)*Math.exp(beta/Z + c);
 
             let W_0_H = find_W_H(a_0,k,rootprec);
-
-            function find_eta(W_0,beta,c){
-                return W_0 - (beta + c);
-            }
-
-            let result = find_eta(W_0_H,beta,c);
+            let result =  W_0_H - (beta/Z + c);
 
             return result;
         }
 
         function MOML_produce_surface_potenial_plot(){
+            let m_i = 1.67*1e-27;
+            let m_e = 9.11*1e-31;
+            let mu = (parseFloat(document.getElementById('MuController').value))*(m_i/m_e);
             let beta = 10**(parseFloat(document.getElementById('BetaController').value));
             let Z = parseFloat(document.getElementById('ZController').value); 
-            let Gamma = parseFloat(document.getElementById('GammaController').value);        
-            let val = MOML_find_surface_potential(beta,Z,Gamma);
+            let Gamma = parseFloat(document.getElementById('GammaController').value);   
+            let root =  10**(parseFloat(document.getElementById('RootController').value));     
+            let val = MOML_find_surface_potential(beta,Z,Gamma,mu,root);
             return val;
         }
         return MOML_produce_surface_potenial_plot();
     }
 
     function SOML_calc(){   
-        function SOML_find_surface_potential(beta,Z,u){
-            let m_i = 1.67*1e-27;
-            let m_e = 9.11*1e-31;
-            let rootprec = 10**(-12);
-            let mu = (m_i/m_e);
+        function SOML_find_surface_potential(beta,Z,u,mu,rootprec){
             let a_0 = 1;
 
             let p_1 = (((2*Math.PI*beta)**0.5)/(4*u))*(1 + (u**2)/beta)*erf(u/((2*beta)**0.5)) + 0.5*Math.exp(-1*(u**2)/(2*beta));
             let p_2 = (((Math.PI*beta)/(2*(u**2)))**0.5)*erf(u/((2*beta)**0.5));
 
-            let k = (((mu*beta)**0.5)/p_2)*Math.exp((beta*p_1)/p_2);
+            let k = (((mu*beta)**0.5)/(Z*p_2))*Math.exp((beta*p_1)/(Z*p_2));
 
             let W_0_H = find_W_H(a_0,k,rootprec);
 
-            function find_eta(W_0,beta,p_1,p_2){
-                return W_0 - (p_1*beta/p_2);
-            }
-            let result = find_eta(W_0_H,beta,p_1,p_2);
+            let result = W_0_H - ((p_1*beta)/(Z*p_2));
 
             return result;
         }
 
         function SOML_produce_surface_potenial_plot(){//produce data for fresnel curves
             let val;
+            let m_i = 1.67*1e-27;
+            let m_e = 9.11*1e-31;
+            let mu = (parseFloat(document.getElementById('MuController').value))*(m_i/m_e);
             let beta = 10**(parseFloat(document.getElementById('BetaController').value));
             let Z = parseFloat(document.getElementById('ZController').value); 
             let U =  parseFloat(document.getElementById('UController').value);
+            let root =  10**(parseFloat(document.getElementById('RootController').value));
             if (U == 0){
-                val = OML_find_surface_potential(beta,Z);
+                val = OML_find_surface_potential(beta,Z,mu,root);
             }else{
-                val = SOML_find_surface_potential(beta,Z,U);
+                val = SOML_find_surface_potential(beta,Z,U,mu,root);
             }
             return val;
         }
@@ -369,38 +357,35 @@ $(window).on('load', function() {//main
     }
 
     function SMOML_calc(){
-        function SMOML_find_surface_potential(beta,Z,gamma,u){
-            let m_i = 1.67*1e-27;
-            let m_e = 9.11*1e-31;
-            let rootprec = 10**(-12);
-            let mu = (m_i/m_e);
+        function SMOML_find_surface_potential(beta,Z,gamma,u,mu,rootprec){
             let a_0 = 1;
 
             let p_1 = (((2*Math.PI*beta)**0.5)/(4*u))*(1 + (u**2)/beta)*erf(u/((2*beta)**0.5)) + 0.5*Math.exp(-1*(u**2)/(2*beta));
             let p_2 = (((Math.PI*beta)/(2*(u**2)))**0.5)*erf(u/((2*beta)**0.5));
             let c = 0.5*Math.log(2*Math.PI*(1/mu)*(1 + beta*gamma));
-            let k = (((mu*beta)**0.5)/p_2)*Math.exp(((beta*p_1)/p_2) + c);
+            let k = (((mu*beta)**0.5)/(Z*p_2))*Math.exp(((beta*p_1)/(Z*p_2)) + c);
 
             let W_0_H = find_W_H(a_0,k,rootprec);
 
-            function find_eta(W_0,beta,c,p_1,p_2){
-                return W_0 - (c + p_1*beta/p_2);
-            }
-            let result = find_eta(W_0_H,beta,c,p_1,p_2);
+            let result = W_0_H - (c + ((p_1*beta)/(Z*p_2)));;
 
             return result;
         }
 
         function SMOML_produce_surface_potenial_plot(){
             let val;
+            let m_i = 1.67*1e-27;
+            let m_e = 9.11*1e-31;
+            let mu = (parseFloat(document.getElementById('MuController').value))*(m_i/m_e);
             let beta = 10**(parseFloat(document.getElementById('BetaController').value));
             let Z = parseFloat(document.getElementById('ZController').value); 
             let Gamma = parseFloat(document.getElementById('GammaController').value);
             let U =  parseFloat(document.getElementById('UController').value);
+            let root =  10**(parseFloat(document.getElementById('RootController').value));
             if (U == 0){
-                val = MOML_find_surface_potential(beta,Z,Gamma);
+                val = MOML_find_surface_potential(beta,Z,Gamma,mu,root);
             }else{
-                val = SMOML_find_surface_potential(beta,Z,Gamma,U);
+                val = SMOML_find_surface_potential(beta,Z,Gamma,U,mu,root);
             }
 
             return val;
@@ -439,9 +424,11 @@ $(window).on('load', function() {//main
                 $('#Beta').hide();
                 $('#Gamma').hide();
                 $('#U').hide();
+                $('#Mu').hide();
                 $('#J').show();
                 $('#Eps').show();
                 $('#Z').show();
+                $('#Root').show();
                 break;
             case "OML":
                 $('#J').hide();
@@ -450,6 +437,8 @@ $(window).on('load', function() {//main
                 $('#U').hide();
                 $('#Beta').show();
                 $('#Z').show();
+                $('#Mu').show();
+                $('#Root').show();
                 break;
             case "MOML":
                 $('#J').hide();
@@ -457,7 +446,9 @@ $(window).on('load', function() {//main
                 $('#U').hide();
                 $('#Beta').show();
                 $('#Z').show();
-                $('#Gamma').show(); 
+                $('#Gamma').show();
+                $('#Mu').show(); 
+                $('#Root').show();
                 break;
             case "SOML":
                 $('#J').hide();
@@ -466,6 +457,8 @@ $(window).on('load', function() {//main
                 $('#U').show();
                 $('#Beta').show();
                 $('#Z').show();
+                $('#Mu').show();
+                $('#Root').show();
                 break;
             case "SMOML":
                 $('#J').hide();
@@ -474,6 +467,8 @@ $(window).on('load', function() {//main
                 $('#Z').show();
                 $('#Gamma').show();
                 $('#U').show();
+                $('#Mu').show();
+                $('#Root').show();
                 break;
         }
     }
@@ -481,15 +476,67 @@ $(window).on('load', function() {//main
         update_select_sliders();
         $('#Select').on("change", update_select_sliders);
 
+        //Jquery NB: Put Jquery stuff in the main not in HTML
         $("input[type=range]").each(function () {
             /*Allows for live update for display values*/
+            $(this).on('input', function(){
+                //Displays: (FLT Value) + (Corresponding Unit(if defined))
+                $("#"+$(this).attr("id") + "Display").val( $(this).val());
+                //NB: Display values are restricted by their definition in the HTML to always display nice number.
+                //updatePlot(); //Updating the plot is linked with display (Just My preference)
+            });
+
+            $("#JControllerDisplay").change(function () {
+                var value = this.value;
+                $("#JController").val(value);
+            });
+
+            $("#EpsControllerDisplay").change(function () {
+                var value = this.value;
+                $("#EpsController").val(value);
+            });
+
+            $("#BetaControllerDisplay").change(function () {
+                var value = this.value;
+                $("#BetaController").val(value);
+            });
+
+            $("#ZControllerDisplay").change(function () {
+                var value = this.value;
+                $("#ZController").val(value);
+            });
+
+            $("#GammaControllerDisplay").change(function () {
+                var value = this.value;
+                $("#GammaController").val(value);
+            });
+
+            $("#UControllerDisplay").change(function () {
+                var value = this.value;
+                $("#UController").val(value);
+            });
+
+            $("#MuControllerDisplay").change(function () {
+                var value = this.value;
+                $("#MuController").val(value);
+            });
+
+            $("#RootControllerDisplay").change(function () {
+                var value = this.value;
+                $("#RootController").val(value);
+            });
+
+        });
+        /*
+        $("input[type=range]").each(function () {
+            //Allows for live update for display values
             $(this).on('input', function(){
                 //Displays: (FLT Value) + (Corresponding Unit(if defined))
                 $("#"+$(this).attr("id") + "Display").text( $(this).val() + $("#"+$(this).attr("id") + "Display").attr("data-unit"));
                 //NB: Display values are restricted by their definition in the HTML to always display nice number.
             });
-
         });
+        */
 
         $('#CalcButton').on('click', function() {
             $("#Norm_surd_pot-display").html(Calculator());

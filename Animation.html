@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>Animation - Charging Models - Imperial Visualisations</title>
+    <link rel="icon" href="https://www.imperial.ac.uk/T4Assets/favicon-196x196.png" type="image/x-icon">
+        <link rel="stylesheet" href="https://rawgit.com/Imperial-visualizations/Physics-Visualizations/master/css/skeleton.css">
+    <link rel="stylesheet" href="https://rawgit.com/Imperial-visualizations/Physics-Visualizations/master/css/style.css">
+
+    <script src="scripts/plotly-1.47.4.min.js"></script>
+    <script src="https://code.jquery.com/jquery-3.2.1.min.js"></script>
+    <script src="scripts/numeric/src/numeric.js"></script>
+    <script src="https://unpkg.com/mathjs@6.0.2/dist/math.min.js"></script>
+    <script type="text/x-mathjax-config">
+        MathJax.Hub.Config({
+            extensions: ["tex2jax.js"],
+            jax: ["input/TeX", "output/HTML-CSS"],
+            tex2jax: {
+            inlineMath: [ ['$','$'], ["\\(","\\)"] ],
+            displayMath: [ ['$$','$$'], ["\\[","\\]"] ],
+            processEscapes: true
+            },
+            "HTML-CSS": { fonts: ["TeX"] }
+        });
+        </script>
+    <script type="text/javascript" src="scripts/MathJax-master/MathJax.js"></script>
+    <meta http-equiv="Content-Type" content="text/html;charset=UTF-8">
+
+</head>
+
+<body>
+<div class="container">
+    <div class="row">
+        <h1>Charging Model Particle Motion</h1>
+        <input type="button" id="PlayButton" value="Play">
+        <div class="twelve columns">
+            <div id="graph" ></div>
+        </div>
+    </div>
+</div>
+<script src="scripts/Animation.js"></script>
+</body>
+</html>

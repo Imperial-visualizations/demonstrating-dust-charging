@@ -9,7 +9,7 @@ $(window).on('load', function() {//main
                 type: 'log',
             },
             yaxis: {
-                range: [0, 5],
+                range: [1, 3.5],
                 title: "Normalized Surface Potential",
             },
             margin: {
@@ -57,12 +57,8 @@ $(window).on('load', function() {//main
         return W_0; 
     }
 
-    function MOML_find_surface_potential(beta){
-        let m_i = 1.67*1e-27;
-        let m_e = 9.11*1e-31;
+    function MOML_find_surface_potential(beta,mu,gamma){
         let rootprec = 10**(-12);
-        let gamma = 5/3;
-        let mu = (m_i/m_e);
         let a_0 = 1;
 
         let c = 0.5*Math.log(2*Math.PI*(1/mu)*(1 + beta*gamma));
@@ -73,31 +69,49 @@ $(window).on('load', function() {//main
         function find_eta(W_0,beta,c){
             return W_0 - (beta + c);
         }
-
-        let result = find_eta(W_0_H,beta,c);
+        
+        let result = find_eta(W_0_H, beta, c);
 
         return result;
     }
 
     function MOML_produce_surface_potenial_plot(){//produce data for fresnel curves
-
-        let beta = logspace(-2,1,1000);        
+        let gamma = numeric.linspace(0.1,3,5);
+        let beta = logspace(-6,2,100);   
+        let m_i = 1.67*1e-27;
+        let m_e = 9.11*1e-31; 
+        let mu = (m_i/m_e);     
         let plot_data = [];
-        let data_H = [];
 
-        for(let i = 0;i<beta.length;i++){
-            let val = MOML_find_surface_potential(beta[i]);
-            data_H.push(val);
+        for(let j = 0; j<gamma.length ;j++){
+            let data_H = [];
+            for(let i = 0;i<beta.length;i++){
+                let val = MOML_find_surface_potential(beta[i],mu,gamma[j]);
+                data_H.push(val);
+            }
+            let sp_line_H = {
+                x: beta,
+                y: data_H,
+                type: 'scatter',
+                name: 'MOML: Norm Surface potential H G='+ math.round(gamma[j],2).toString(),
+            };
+            plot_data.push(sp_line_H);
         }
 
-        let sp_line_H = {
+        let tends_val = -0.5*math.log(2*Math.PI/mu);
+        let tends_val_array = new Array (beta.length);
+        tends_val_array.fill(tends_val);
+        let tends = {
             x: beta,
-            y: data_H,
-            type: 'scatter',
-            name: 'MOML: Norm Surface potential H',
+            y: tends_val_array,
+            type: 'lines',
+            line: {
+                dash: 'dot',
+                width: 1
+              },
+            name: 'MOML: c',
         };
-
-        plot_data.push(sp_line_H);
+        plot_data.push(tends);
         
         return plot_data;
     }
@@ -124,7 +138,7 @@ $(window).on('load', function() {//main
 
     function OML_produce_surface_potenial_plot(){//produce data for fresnel curves
 
-        let beta = logspace(-2,1,1000);
+        let beta = logspace(-6,2,1000);
         let z = 1;      
         let plot_data = [];
         let data_H = [];

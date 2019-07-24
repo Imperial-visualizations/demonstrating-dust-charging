@@ -16,6 +16,21 @@ $(window).on('load', function() {//main
                 l: 65, r: 5, b: 40, t: 50, pad: 10
             },
         },
+        layoutSurface_u: {
+            autosize: true,
+            xaxis: {
+                range: [0,5],
+                title: "u",
+                //type: 'log',
+            },
+            yaxis: {
+                range: [2, 4.5],
+                title: "Normalized Surface Potential",
+            },
+            margin: {
+                l: 65, r: 5, b: 40, t: 50, pad: 10
+            },
+        },
     };    
 
    function logspace(a,b,c){
@@ -252,6 +267,52 @@ $(window).on('load', function() {//main
         return plot_data;
     }
 
+    function SMOML_produce_surface_potenial_plot_u(){//produce data for fresnel curves
+
+        let beta = [1,10];
+        let u_array = numeric.linspace(0,5,1000);      
+        let plot_data = [];
+        
+        for(let i = 0;i<beta.length;i++){
+            let data_H = [];
+            for(let j=0;j<u_array.length;j++){
+                let val = SMOML_find_surface_potential(beta[i],u_array[j]);
+                data_H.push(val);
+            }
+            let sp_line_H = {
+                x: u_array,
+                y: data_H,
+                type: 'scatter',
+                name: 'SMOML: Norm Surface potential H, beta = ' + beta[i].toString(),
+            };
+            plot_data.push(sp_line_H);
+        }
+        return plot_data;
+    }
+    function SOML_produce_surface_potenial_plot_u(){//produce data for fresnel curves
+
+        let beta = [1,10];
+        let u_array = numeric.linspace(0,5,1000);       
+        let plot_data = [];
+        
+        for(let i = 0;i<beta.length;i++){
+            let data_H = [];
+            for(let j=0;j<u_array.length;j++){
+                let val = SOML_find_surface_potential(beta[i],u_array[j]);
+                data_H.push(val);
+            }
+            let sp_line_H = {
+                x: u_array,
+                y: data_H,
+                type: 'scatter',
+                name: 'SOML: Norm Surface potential H, beta = ' + beta[i].toString(),
+            };
+            plot_data.push(sp_line_H);
+        }
+        return plot_data;
+    }
+
+
     function plot_oml_moml_soml_smoml(){
         let oml = OML_produce_surface_potenial_plot();
         let moml = MOML_produce_surface_potenial_plot();
@@ -261,10 +322,20 @@ $(window).on('load', function() {//main
         return data_surface;
     }
 
+    function plot_soml_smoml_u(){
+        let soml = SOML_produce_surface_potenial_plot_u();
+        let smoml = SMOML_produce_surface_potenial_plot_u();
+        let data_surface = soml.concat(smoml);
+        return data_surface;
+    }
+
     function initial(){
 
         Plotly.purge("graph_surface_potential");
         Plotly.newPlot("graph_surface_potential", plot_oml_moml_soml_smoml(),plt.layoutSurface);
+
+        Plotly.purge("graph_surface_potential_u");
+        Plotly.newPlot("graph_surface_potential_u", plot_soml_smoml_u(),plt.layoutSurface_u);
 
     }
     initial();

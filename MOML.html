@@ -49,7 +49,10 @@
                         n^i_{se}\sqrt{\frac{k_bT_e\gamma k_bT_i}{m_i}} = \frac{1}{4}n_{se}^e(\frac{8k_bT_e}{\pi m_e})^{-0.5}exp(\frac{e\Delta\phi}{k_BT_e})
                     $$
                     Assume quasi neutral pre-sheath solve above equation for $\Delta \phi$ then substitute into BRAY 2.51 (floating condition). The resulting equation may be resolved numerically or in terms of the Lambert W function, by re-arragning it.Since the only fundamental difference between MOML and OML is the inclusion of potential barriers in the former, it would be expected that the MOML floating potential would be lower than the OML value for low temperatures, gradually converging to the OML value the ion temperature rise and θ heads towards and beyond unity. In the small grain limit,  MOML is expected to converge to OML since on scales $A≪ 1$ there is no sheath and so no potential barriers to ion collection, the original OML situation.
-                    </p>
+                    The drop in potential over the sheath $\Delta\phi$ is given by $$-\frac{1}{2}ln(\frac{2\pi}{\mu}(1+\gamma\beta))$$ where $\beta = \frac{T_i}{T_e}$ and $\mu = \frac{m_i}{m_e}$. To solve for $\phi$ subsitute in $\Delta \phi$ and multiply by $exp(-(-(\beta + c)))$ where $c = -\Delta\phi$ then re-arange  such that 
+                    $$exp(\beta + c) = \sqrt{\frac{\beta}{\mu}}(1 + \frac{\phi}{\beta}+ \frac{c}{\beta})exp(\phi + \beta + c)$$ then multiply by $\sqrt{\beta\mu}$ and re-arange such that 
+                    $$\sqrt{\beta \mu}exp(\beta + c) = (\phi + \beta + c)exp(\phi + \beta + c)$$ this may be solved using lambert W function such that $$\phi = W_0(k) - \beta - c$$ where $k = \sqrt{\beta \mu}exp(\beta + c)$
+                </p>
             </div>
     </div>
     <div class = "row">

@@ -58,8 +58,8 @@
                         <p></p>
                         <div id="J">
                             <!--Slider Display J-->
-                            <label class="sliderTitle" style="padding-bottom:20px;">J Power:<!--Amplitude-->
-                                <span id="JControllerDisplay" data-unit="">1</span> <!--default: 1-->
+                            <label class="sliderTitle" style="padding-bottom:20px;">J Power:&nbsp;
+                                <input id="JControllerDisplay" value="1" data-unit=""/>&nbsp;
                             </label>
                             <!--Slider J-->
                             <label class="slider">
@@ -74,8 +74,8 @@
                         <p></p>
                         <div id="Eps">
                             <!--Slider Display Eps-->
-                            <label class="sliderTitle" style="padding-bottom:20px;">Epsilon Power:<!--Amplitude-->
-                                <span id="EpsControllerDisplay" data-unit="">-10</span> <!--default: 1-->
+                            <label class="sliderTitle" style="padding-bottom:20px;">Epsilon Power:&nbsp;
+                                <input id="EpsControllerDisplay" value="-10" data-unit=""/>&nbsp;
                             </label>
                             <!--Slider Eps-->
                             <label class="slider">
@@ -84,28 +84,43 @@
                                     step="1"/>
                                 <span class="sliderMax">-6</span></label>
                         </div>
-                        <!--END Slider J-->
+                        <!--END Slider eps-->
         
                         <!--BEGIN Slider Beta-->
                         <div id="Beta">
                             <!--Slider Display Beta-->
-                            <label class="sliderTitle" style="padding-bottom:20px;">Beta Power:
-                                <span id="BetaControllerDisplay" data-unit="">0</span>
+                            <label class="sliderTitle" style="padding-bottom:20px;">Beta Power:&nbsp;
+                                <input id="BetaControllerDisplay" value="0" data-unit=""/>&nbsp;
                             </label>
                             <!--Slider Beta-->
                             <label class="slider">
                                 <span class="sliderMin">-6</span>
-                                <input id="BetaController" class="inputs" type="range" value="0" min="-6" max="4" step="0.1"/>
-                                <span class="sliderMax">4</span>
+                                <input id="BetaController" class="inputs" type="range" value="0" min="-6" max="2" step="0.1"/>
+                                <span class="sliderMax">2</span>
                             </label>
                         </div>
                         <!--END Slider Beta-->
 
+                        <!--BEGIN Slider Mu-->
+                        <div id="Mu">
+                                <!--Slider Display Mu-->
+                                <label class="sliderTitle" style="padding-bottom:20px;">Mu multiple:&nbsp;
+                                    <input id="MuControllerDisplay" value="1" data-unit=""/>&nbsp;
+                                </label>
+                                <!--Slider Mu-->
+                                <label class="slider">
+                                    <span class="sliderMin">0.1</span>
+                                    <input id="MuController" class="inputs" type="range" value="1" min="0.1" max="10" step="0.1"/>
+                                    <span class="sliderMax">10</span>
+                                </label>
+                            </div>
+                            <!--END Slider Mu-->
+
                         <!--BEGIN Slider Z-->
                         <div id="Z">
                             <!--Slider Display Z-->
-                            <label class="sliderTitle" style="padding-bottom:20px;">Z:
-                                <span id="ZControllerDisplay" data-unit="">1</span>
+                            <label class="sliderTitle" style="padding-bottom:20px;">Z:&nbsp;
+                                <input id="ZControllerDisplay" value="1" data-unit=""/>&nbsp;
                             </label>
                             <!--Slider Z-->
                             <label class="slider">
@@ -116,11 +131,27 @@
                         </div>
                         <!--END Slider Z-->
 
+                        <!--BEGIN Slider Root-->
+                        <p></p>
+                        <div id="Root">
+                            <!--Slider Display Root-->
+                            <label class="sliderTitle" style="padding-bottom:20px;">Root Precision Power:&nbsp;
+                                <input id="RootControllerDisplay" value="-12" data-unit=""/>&nbsp;
+                            </label>
+                            <!--Slider Root-->
+                            <label class="slider">
+                                <span class="sliderMin">-15</span>
+                                <input id="RootController" class="inputs" type="range" value="-12" min="-15" max="-6"
+                                    step="1"/>
+                                <span class="sliderMax">-6</span></label>
+                        </div>
+                        <!--END Slider Root-->
+
                         <!--BEGIN Slider Gamma-->
                         <div id="Gamma">
                             <!--Slider Display Gamma-->
-                            <label class="sliderTitle" style="padding-bottom:20px;">Gamma:
-                                <span id="GammaControllerDisplay" data-unit="">1</span>
+                            <label class="sliderTitle" style="padding-bottom:20px;">Gamma:&nbsp;
+                                <input id="GammaControllerDisplay" value="1" data-unit=""/>&nbsp;
                             </label>
                             <!--Slider Gamma-->
                             <label class="slider">
@@ -134,8 +165,8 @@
                         <!--BEGIN Slider U-->
                         <div id="U">
                             <!--Slider Display U-->
-                            <label class="sliderTitle" style="padding-bottom:20px;">U:
-                                <span id="UControllerDisplay" data-unit="">1</span>
+                            <label class="sliderTitle" style="padding-bottom:20px;">U:&nbsp;
+                                <input id="UControllerDisplay" value="1" data-unit=""/>&nbsp;
                             </label>
                             <!--Slider U-->
                             <label class="slider">
