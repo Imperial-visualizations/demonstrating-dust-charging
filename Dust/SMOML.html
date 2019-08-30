@@ -1,0 +1,78 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>SMOML - Charging Models - Imperial Visualisations</title>
+    <link rel="icon" href="https://www.imperial.ac.uk/T4Assets/favicon-196x196.png" type="image/x-icon">
+    <link rel="stylesheet"
+          href="styles/skeleton.css">
+    <link rel="stylesheet"
+          href="styles/style.css">
+
+   <script src="scripts/plotly-1.47.4.min.js"></script>
+    <script src="https://code.jquery.com/jquery-3.2.1.min.js"></script>
+    <script src="scripts/numeric/src/numeric.js"></script>
+    <script src="https://unpkg.com/mathjs@6.0.2/dist/math.min.js"></script>
+    <script type="text/x-mathjax-config">
+        MathJax.Hub.Config({
+          extensions: ["tex2jax.js"],
+          jax: ["input/TeX", "output/HTML-CSS"],
+          tex2jax: {
+            inlineMath: [ ['$','$'], ["\\(","\\)"] ],
+            displayMath: [ ['$$','$$'], ["\\[","\\]"] ],
+            processEscapes: true
+          },
+          "HTML-CSS": { fonts: ["TeX"] }
+        });
+      </script>
+    <script type="text/javascript" src="scripts/MathJax-master/MathJax.js"></script>
+    <meta http-equiv="Content-Type" content="text/html;charset=UTF-8">
+
+</head>
+
+<body>
+<div
+    style="top: 1vh; height: 60vh; width: 95vw; padding-left:1vw; position: fixed; display: flex; align-items: center;">
+    <!--Graphs-->
+    <div id='graph1Sec5' style=" height: 100%;flex: 1 1 0; display: flex; align-items: center; justify-content: flex-start;"></div>
+    <div id='graph2Sec5' style="height: 100%;flex: 1 1 0; display: flex; align-items: center; justify-content: flex-start;"></div>
+  </div>
+  <!--Container for all Inputs-->
+  <div style="top: 60vh; height: 40vh; width: 100vw; padding-left:1vw; position: fixed; align-items: center;">
+    <div class="inputsContainer">
+        <div class="overall-sliders-container">
+            <!--Sliders-->
+            <div id="USec5" class="partial-sliders-container">
+                <label for="USec5" class="slider-label">U:<span id="USec5-display"></span>
+                </label>
+                <div id="USec5-slider" class = "slider">
+                    <span class="sliderMin">0</span>
+                    <input type="range" id="USec5" name="USec4" min="0" max="2" value="1" step = "0.1">
+                    <span class="sliderMax">2</span>                                
+                </div>
+            </div>
+            <div id="GammaSec5" class="partial-sliders-container">
+                <label for="GammaSec5" class="slider-label">Gamma:<span id="GammaSec5-display"></span>
+                </label>
+                <div id="GammaSec5-slider" class = "slider">
+                    <span class="sliderMin">0</span>
+                    <input type="range" id="GammaSec5" name="GammaSec5" min="0" max="4" value="1" step = "0.1">
+                    <span class="sliderMax">4</span>                                
+                </div>
+            </div>
+            <div id="BetaSec5" class="partial-sliders-container">
+                <label for="BetaSec5" class="slider-label">Beta:<span id="BetaSec5-display"></span>
+                </label>
+                <div id="BetaSec5-slider" class = "slider">
+                    <span class="sliderMin">1</span>
+                    <input type="range" id="BetaSec5" name="BetaSec5" min="1" max="10" value="1" step = "1">
+                    <span class="sliderMax">10</span>                                
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<script src="scripts/SMOML.js"></script>
+</body>
+</html>

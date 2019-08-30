@@ -1,0 +1,881 @@
+.transition-container {
+    width: 100%;
+    height: 100%;
+    position: relative;
+    background: #ffffff;
+    overflow-y: hidden;
+    overflow-x: hidden;
+}
+
+.rightload {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: white;
+}
+
+/* SECTION 1 */
+
+#loadout1 {
+}
+
+#loadout1 #graph1Sec1 {
+    width: 60vw;
+    height: 80vh;
+    position: absolute;
+    left: 3vw;
+    top: 3vh;
+    padding: 1%;
+}
+
+#loadout1 .overall-sliders-container {
+    display: flex;
+    flex-direction: column;
+    position: absolute;
+    right: 3vw;
+    top: 5vh;
+    width: 30vw;
+    height: 95vh;
+}
+
+#loadout1 .partial-sliders-container {
+    display: flex;
+    flex-direction: column;
+    flex-basis: 0;
+    flex-grow: 1;
+}
+
+#loadout1 .slider {
+    display: flex;
+    align-items: center;
+    flex-basis: 0;
+    flex-grow: 1;
+    flex-shrink: 1;
+}
+
+#loadout1 .sliderValue {
+    width: 60px;
+    flex: 0 0 60px;
+    text-align: center;
+    line-height: 40px;
+    vertical-align: middle;
+}
+
+#loadout1 .inputs {
+    height: 40px;
+    flex: 1 1 auto;
+}
+
+#loadout1 .slider-label {
+    font-size: 26px;
+    text-align: left;
+    padding-left: 8px;
+    margin: 0;
+    padding-top: 0;
+    flex-basis: 0;
+    flex-grow: 0.5;
+    flex-shrink: 1;
+}
+
+#loadout1 .graphcolor1 {
+    border-left: solid 5px rgb(213, 0, 50);
+    color: rgb(213, 0, 50);
+}
+
+#loadout1 .graphcolor2 {
+    border-left: solid 5px rgb(0, 0, 255);
+    color: rgb(0, 0, 255);
+}
+
+#loadout1 .graphcolor3 {
+    border-left: solid 5px rgb(0, 128, 0);
+    color: rgb(0, 128, 0);
+}
+
+#loadout1 #vectorComponentsCustom {
+    width: 60vw;
+    position: absolute;
+    left: 3vw;
+    bottom: 6vh;
+    padding: 1%;
+    text-align: center;
+    font-size: 19px;
+}
+
+#loadout1 #popup1 {
+    width: 60vw;
+    position: absolute;
+    left: 3vw;
+    bottom: 6vh;
+    padding: 1%;
+    text-align: center;
+    color: white;
+    background-color: #D50032;
+}
+
+/* SECTION 2 */
+
+#loadout2sub1 .graph1Title {
+    width: 50vw;
+    height: 7.5vh;
+    position: absolute;
+    top: 1.1vh;
+    left: 2.3vw;
+    text-align: center;
+}
+
+#loadout2sub1 #Scalar_Graph_1a {
+    width: 50vw;
+    height: 55vh;
+    position: absolute;
+    left: 2.3vw;
+    top: 11vh;
+}
+
+#loadout2sub1 .graph2Title {
+    width: 40vw;
+    height: 7.5vh;
+    position: absolute;
+    top: 1.1vh;
+    right: 2.3vw;
+    text-align: center;
+}
+
+#loadout2sub1 #Vector_Graph_1a {
+    width: 40vw;
+    height: 55vh;
+    position: absolute;
+    right: 2.3vw;
+    top: 11vh;
+}
+
+#loadout2sub1 .inputsContainer {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    width: 45vw;
+    height: 25vh;
+    position: absolute;
+    bottom: 2.2vh;
+    left: 3.9vw;
+}
+
+#loadout2sub1 .equationContainer {
+    display: flex;
+    flex-direction: column;
+    justify-content: space-around;
+    align-items: center;
+    width: 45vw;
+    height: 25vh;
+    position: absolute;
+    bottom: 2.2vh;
+    right: 3.9vw;
+    font-size: 22px;
+}
+
+#loadout2sub1 .equationContainer > * {
+    display: none;
+    flex: 0 0 auto;
+}
+
+#loadout2sub1 .equationContainer img {
+    max-height: 80px;
+    width: 35vw;
+    margin: 2vh;
+}
+
+#loadout2sub1 .scroll_down {
+    display: table;
+    flex: 1 0 auto;
+    margin: 0 auto;
+}
+
+#loadout2sub1 .overall-sliders-container {
+    display: flex;
+    flex-direction: column;
+    width: 40vw;
+}
+
+#loadout2sub1 .partial-sliders-container {
+    display: flex;
+    flex-direction: row;
+    flex-basis: 0;
+    flex-grow: 1;
+    flex-shrink: 1;
+}
+
+#loadout2sub1 .slider-label {
+    font-size: 1.9vw;
+    text-align: left;
+    padding-left: 8px;
+    margin: 0;
+    padding-top: 0;
+    padding-bottom: 20px;
+    flex-basis: 0;
+    flex-grow: 0.5;
+    flex-shrink: 1;
+}
+
+#loadout2sub1 .slider {
+    display: flex;
+    align-items: center;
+    flex: 1 0 auto;
+}
+
+#loadout2sub1 .sliderMin, #loadout2sub1 .sliderMax {
+    margin-top: 30px;
+    width: 40px;
+    flex: 0 0 40px;
+    text-align: center;
+    line-height: 40px;
+    vertical-align: middle;
+}
+
+#loadout2sub1 .inputs {
+    height: 40px;
+    flex: 1 1 auto;
+}
+
+#loadout2sub2 .graph1Title {
+    width: 55vw;
+    height: 7.5vh;
+    position: absolute;
+    top: 1.1vh;
+    left: 2.3vw;
+    text-align: center;
+}
+
+#loadout2sub2 #Scalar_Graph_1b {
+    width: 50vw;
+    height: 60vh;
+    position: absolute;
+    left: 2.3vw;
+    top: 11vh;
+}
+
+#loadout2sub2 .graph2Title {
+    width: 40vw;
+    height: 7.5vh;
+    position: absolute;
+    top: 1.1vh;
+    right: 2.3vw;
+    text-align: center;
+}
+
+#loadout2sub2 #Vector_Graph_1b {
+    width: 40vw;
+    height: 55vh;
+    position: absolute;
+    right: 2.3vw;
+    top: 11vh;
+}
+
+#loadout2sub2 .inputsContainer {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: stretch;
+    width: 45vw;
+    height: 25vh;
+    position: absolute;
+    bottom: 2.2vh;
+    left: 3.9vw;
+}
+
+#loadout2sub2 .legendContainer {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: stretch;
+    width: 10vw;
+    height: 25vh;
+    position: absolute;
+    bottom: 4.3vh;
+    right: 37vw;
+    font-size: 1.5vw;
+}
+
+#loadout2sub2 .legendContent {
+    display: flex;
+    align-items: center;
+    flex: 1 0 auto;
+}
+
+#loadout2sub2 .legendContent span {
+    flex: 1 0 auto;
+    text-align: right;
+}
+
+#loadout2sub2 .colorBlock {
+    flex: 0 0 auto;
+    width: 4.7vw;
+    height: 1.1vh;
+}
+
+#loadout2sub2 .colorCircle {
+    flex: 0 0 auto;
+    width: 1.6vh;
+    height: 1.6vh;
+    border-radius: 50%;
+}
+
+#loadout2sub2 .yellow {
+    background: rgb(255, 255, 0);
+}
+
+#loadout2sub2 .green {
+    background: rgb(173, 255, 47);
+}
+
+#loadout2sub2 .pink {
+    background: rgb(238, 130, 238);
+}
+
+#loadout2sub2 .gray {
+    background: rgb(192, 192, 192);
+}
+
+#loadout2sub2 .red {
+    background: rgb(255, 0, 0);
+}
+
+#loadout2sub2 #scroll {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    width: 25vw;
+    height: 8vh;
+    position: absolute;
+    bottom: 22vh;
+    right: 3.9vw;
+}
+
+#loadout2sub2 .scroll-down {
+    display: table;
+    flex: 0 0 auto;
+    margin: 0 auto;
+    font-size: 1.5vw;
+    text-align: center;
+}
+
+#loadout2sub2 .equationContainer {
+    display: flex;
+    flex-direction: column;
+    justify-content: space-around;
+    align-items: center;
+    width: 25vw;
+    height: 20vh;
+    position: absolute;
+    bottom: 2.2vh;
+    right: 3.9vw;
+    font-size: 22px;
+}
+
+#loadout2sub2 .equationContainer > * {
+    display: none;
+    flex: 0 0 auto;
+}
+
+#loadout2sub2 .equationContainer img {
+    max-height: 80px;
+    width: 25vw;
+    margin: 2vh;
+}
+
+#loadout2sub2 .overall-sliders-container {
+    width: 90vw;
+    display: flex;
+    flex-direction: column;
+}
+
+#loadout2sub2 .partial-sliders-container {
+    display: flex;
+    flex-direction: column;
+    flex: 1 0 auto;
+    justify-content: flex-end;
+}
+
+#loadout2sub2 .slider-label {
+    font-size: 1.9vw;
+    text-align: left;
+    padding-left: 8px;
+    margin: 0;
+    padding-top: 15px;
+    padding-bottom: 5px;
+    flex-basis: auto;
+    flex-grow: 0.3;
+    flex-shrink: 1;
+}
+
+#loadout2sub2 .smaller-text {
+    font-size: 1.5vw;
+    flex-basis: auto;
+    flex-grow: 1;
+    flex-shrink: 1;
+    text-align: right;
+}
+
+#loadout2sub2 .flex-slider-label {
+    display: flex;
+    flex-direction: row;
+    padding-right: 40px;
+    align-items: baseline;
+}
+
+#loadout2sub2 .slider {
+    display: flex;
+    align-items: center;
+    flex: 1 0 auto;
+}
+
+#loadout2sub2 .sliderMin, #loadout2sub2 .sliderMax {
+    margin-top: 30px;
+    width: 40px;
+    flex: 0 0 40px;
+    text-align: center;
+    line-height: 40px;
+    vertical-align: middle;
+}
+
+#loadout2sub2 .inputs {
+    height: 40px;
+    flex: 1 1 auto;
+}
+
+/* SECTION 3 */
+
+#loadout3sub1 {
+}
+
+#loadout3sub1 .graphTitle {
+    width: 65vw;
+    height: 7.5vh;
+    position: absolute;
+    top: 4.3vh;
+    left: 2.3vw;
+    text-align: center;
+}
+
+#loadout3sub1 #Graph_2a {
+    width: 65vw;
+    height: 80vh;
+    position: absolute;
+    left: 2.3vw;
+    top: 8.6vh;
+}
+
+#loadout3sub1 .overall-sliders-container {
+    display: flex;
+    flex-direction: column;
+    position: absolute;
+    bottom: 1.1vh;
+    left: 2.3vw;
+    width: 60vw;
+    height: 20vh;
+}
+
+#loadout3sub1 .partial-sliders-container {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    flex-basis: 0;
+    flex-grow: 1;
+    flex-shrink: 1;
+    position: absolute;
+    bottom: 1.1vh;
+    left: 2.3vw;
+    width: 60vw;
+    height: 10vh;
+}
+
+#loadout3sub1 .slider-label {
+    font-size: 1.9vw;
+    text-align: left;
+    padding-left: 30px;
+    margin: 0;
+    padding-top: 0;
+    padding-bottom: 10px;
+    flex-basis: auto;
+    flex-grow: 0.3;
+    flex-shrink: 1;
+}
+
+#loadout3sub1 .slider {
+    display: flex;
+    align-items: center;
+    flex: 1 0 auto;
+}
+
+#loadout3sub1 .sliderMin, #loadout3sub1 .sliderMax {
+    margin-top: 30px;
+    width: 40px;
+    flex: 0 0 40px;
+    text-align: center;
+    line-height: 40px;
+    vertical-align: middle;
+}
+
+#loadout3sub1 .inputs {
+    height: 40px;
+    flex: 1 1 auto;
+}
+
+#loadout3sub1 #divSourceContainer {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    width: 35vw;
+    height: 40vh;
+    position: absolute;
+    top: 6.5vh;
+    right: 2.3vw;
+}
+
+#loadout3sub1 #divSinkContainer {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    width: 35vw;
+    height: 40vh;
+    position: absolute;
+    bottom: 6.5vh;
+    right: 2.3vw;
+}
+
+#loadout3sub1 #picTitle {
+    height: 5.4vh;
+}
+
+#loadout3sub1 #divSource, #loadout3sub1 #divSink {
+    height: calc(40vh - 5.4vh);
+}
+
+#loadout3sub2 {
+    width: 100vw;
+    height: 100vh;
+    display: flex;
+    flex-direction: column;
+    align-items: stretch;
+    overflow: hidden;
+}
+
+#loadout3sub2 #sketch-holder {
+    flex: 1 0 auto;
+    order: 2;
+}
+
+#loadout3sub2 #sketch-holder .p5Canvas {
+    background: #ffffff;
+}
+
+#loadout3sub2 .innerBanner {
+    display: flex;
+    align-items: center;
+    height: 12.5vh;
+    flex: 0 0 auto;
+    order: 1;
+    margin: 0 30px;
+}
+
+#loadout3sub2 .infoDisplay {
+    margin: 0;
+    padding: 0;
+    text-align: center;
+    flex: 0.2 1 auto;
+}
+
+#loadout3sub2 .overall-sliders-container {
+    display: flex;
+    flex-direction: column;
+    position: absolute;
+    bottom: 1.1vh;
+    left: 2.3vw;
+    width: 60vw;
+    height: 20vh;
+}
+
+#loadout3sub2 .partial-sliders-container {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    flex-basis: 0;
+    flex-grow: 1;
+    flex-shrink: 1;
+}
+
+#loadout3sub2 .slider-label {
+    font-size: 1.9vw;
+    flex-basis: auto;
+    flex-grow: 0.3;
+    flex-shrink: 1;
+    margin: 0;
+    padding: 0;
+    text-align: center;
+}
+
+#loadout3sub2 .slider {
+    margin-top: 10px;
+    display: flex;
+    align-items: center;
+    flex: 1 0 auto;
+}
+
+#loadout3sub2 .sliderMin, #loadout3sub2 .sliderMax {
+    margin-top: 30px;
+    width: 40px;
+    flex: 0 0 40px;
+    text-align: center;
+    line-height: 40px;
+    vertical-align: middle;
+}
+
+#loadout3sub2 .inputs {
+    height: 40px;
+    flex: 1 1 auto;
+}
+
+/* SECTION 4 */
+
+#loadout4 {
+}
+
+#loadout4sub1 .graphTitle {
+    width: 95vw;
+    height: 7.5vh;
+    position: absolute;
+    top: 5vh;
+    left: 2.5vw;
+    text-align: center;
+    font-size: 2.0vw;
+}
+
+#loadout4sub1 #graph-holder {
+    width: 95vw;
+    height: 75vh;
+    position: absolute;
+    left: 2.5vw;
+    top: 10vh;
+}
+
+#loadout4sub1 .overall-sliders-container {
+    display: flex;
+    flex-direction: column;
+    position: absolute;
+    bottom: 4vh;
+    left: 2.5vw;
+    width: 95vw;
+    height: 10vh;
+}
+
+#loadout4sub1 .partial-sliders-container {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    flex-basis: 0;
+    flex-grow: 1;
+    flex-shrink: 1;
+}
+
+#loadout4sub1 .slider-label {
+    font-size: 1.7vw;
+    flex-basis: auto;
+    flex-grow: 0.3;
+    flex-shrink: 1;
+    margin: 0;
+    padding: 0;
+    text-align: center;
+}
+
+#loadout4sub1 .slider {
+    margin-top: 10px;
+    display: flex;
+    align-items: center;
+    flex: 1 0 auto;
+}
+
+#loadout4sub1 .sliderMin, #loadout4sub1 .sliderMax {
+    margin-top: 30px;
+    width: 40px;
+    flex: 0 0 40px;
+    text-align: center;
+    line-height: 40px;
+    vertical-align: middle;
+}
+
+#loadout4sub1 .inputs {
+    height: 40px;
+    flex: 1 1 auto;
+}
+
+
+#loadout4sub2 .sketchTitle {
+    width: 45vw;
+    height: 7.5vh;
+    position: absolute;
+    top: 7.5vh;
+    left: 4.7vw;
+    text-align: center;
+}
+
+#loadout4sub2 #sketch-holder {
+    width: 45vw;
+    height: 60vh;
+    position: absolute;
+    left: 4.7vw;
+    top: 17vh;
+}
+
+#loadout4sub2 .graphTitle {
+    width: 45vw;
+    height: 7.5vh;
+    position: absolute;
+    top: 7.5vh;
+    right: 4.7vw;
+    text-align: center;
+}
+
+#loadout4sub2 #graph-holder {
+    width: 45vw;
+    height: calc(50vh + 30px);
+    position: absolute;
+    right: 4.7vw;
+    top: calc(17vh - 30px);
+}
+
+#loadout4sub2 .inputsContainer {
+    display: flex;
+    flex-direction: row;
+    align-items: flex-end;
+    justify-content: space-around;
+    position: absolute;
+    bottom: 7.5vh;
+    height: 20vh;
+    width: 45vw;
+}
+
+#loadout4sub2 #iC1 {
+    left: 4.7vw;
+}
+
+#loadout4sub2 #iC2 {
+    padding-left: 50px;
+    right: 4.7vw;
+}
+
+#loadout4sub2 #graphNoteContainer {
+    display: flex;
+    flex-direction: row;
+    width: 45vw;
+    position: absolute;
+    right: 4.7vw;
+    padding-right: 30px;
+    top: 71vh;
+}
+
+#loadout4sub2 #B-dl-text-holder {
+    flex: 0 1 auto;
+    text-align: center;
+    margin-left: 30px;
+    font-size: 1.5vw;
+    min-width: 10vw;
+}
+
+#loadout4sub2 #graphNote {
+    flex: 1 0 auto;
+    text-align: left;
+    margin-left: 30px;
+    font-size: 1.0vw;
+    max-width: 30vw;
+}
+
+#loadout4sub2 .scroll-down {
+    display: table;
+    flex: 1 0 auto;
+    margin: 0 auto;
+    font-size: 1.7vw;
+}
+
+#loadout4sub2 select {
+    font-size: 1.2vw;
+    margin-top: 15px;
+    margin-bottom: 10px;
+}
+
+#loadout4sub2 #play-pause-reset, #loadout4sub2 #add-remove-wires {
+    display: flex;
+    flex-direction: column;
+    align-items: stretch;
+    justify-content: space-between;
+}
+
+#loadout4sub2 button {
+    text-align: center;
+    font-size: 1.4vw;
+    border: solid 1px #033482;
+    color: #033482;
+    box-shadow: none;
+    flex: 0 1 auto;
+}
+
+#loadout4sub2 button:hover {
+    background-color: #eaf2ff;
+}
+
+#loadout4sub2 .overall-sliders-container {
+    display: flex;
+    flex-direction: column;
+    position: absolute;
+    width: 60vw;
+    height: 20vh;
+}
+
+#loadout4sub2 .partial-sliders-container {
+    display: flex;
+    flex-direction: column;
+    align-items: stretch;
+    flex-basis: auto;
+    flex-grow: 0;
+    flex-shrink: 1;
+}
+
+#loadout4sub2 .slider-label {
+    font-size: 1.9vw;
+    flex-basis: auto;
+    flex-grow: 0.3;
+    flex-shrink: 1;
+    margin: 0;
+    padding: 0;
+    text-align: center;
+}
+
+#loadout4sub2 .slider {
+    display: flex;
+    align-items: center;
+    flex: 1 0 auto;
+}
+
+#loadout4sub2 .sliderMin, #loadout4sub2 .sliderMax {
+    margin-top: 30px;
+    width: 3.1vw;
+    flex: 0 0 40px;
+    text-align: center;
+    line-height: 40px;
+    vertical-align: middle;
+}
+
+#loadout4sub2 .inputs {
+    height: 3.1vh;
+    flex: 1 1 auto;
+}
+
+#loadoutblank {
+    text-align: center;
+    line-height: 100vh;
+    vertical-align: middle;
+    font-size: 3.1vw;
+}
+

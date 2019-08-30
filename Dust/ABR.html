@@ -1,0 +1,75 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>ABR - Charging Models - Imperial Visualisations</title>
+    <link rel="stylesheet" href="styles/skeleton.css">
+    <link rel="stylesheet" href="styles/style.css">
+
+    <script src="scripts/plotly-1.47.4.min.js"></script>
+    <script src="https://code.jquery.com/jquery-3.2.1.min.js"></script>
+    <script src="scripts/numeric/src/numeric.js"></script>
+    <script src="https://unpkg.com/mathjs@6.0.2/dist/math.min.js"></script>
+    <script type="text/x-mathjax-config">
+        MathJax.Hub.Config({
+          extensions: ["tex2jax.js"],
+          jax: ["input/TeX", "output/HTML-CSS"],
+          tex2jax: {
+            inlineMath: [ ['$','$'], ["\\(","\\)"] ],
+            displayMath: [ ['$$','$$'], ["\\[","\\]"] ],
+            processEscapes: true
+          },
+          "HTML-CSS": { fonts: ["TeX"] }
+        });
+      </script>
+    <script type="text/javascript" src="scripts/MathJax-master/MathJax.js"></script>
+    <meta http-equiv="Content-Type" content="text/html;charset=UTF-8">
+
+</head>
+
+<body>
+    <div
+        style="top: 1vh; height: 50vh; width: 100vw; padding-left:1vw; position: fixed; display: flex; align-items: center;">
+        <!--Graphs-->
+        <div id='graph1Sec1'
+            style=" height: 100%;flex: 1 1 0; display: flex; align-items: center; justify-content: flex-start;"></div>
+        <div id='graph2Sec1'
+            style="height: 100%;flex: 1 1 0; display: flex; align-items: center; justify-content: flex-start;"></div>
+    </div>
+    <div style="top: 50vh; height: 50vh; width: 100vw; padding-left:1vw; position: fixed; align-items: center;">
+        <!--Container for all Inputs-->
+        <div style="height: 90%; width: 30%; display: flex; flex-direction: column;">
+            <div style="flex: 1 0 auto; display: flex; align-items: center; justify-content: flex-start;">
+                <input type="button" class="buttonSec1" id="FloatSec1Button" value="Produce Graph">
+            </div>
+            <div id="GammaSec1" class="partial-sliders-container"
+                style="flex: 1 0 auto; display: flex; align-items: center; justify-content: flex-start;">
+                <label for="GammaSec1" class="slider-label">Gamma: 10^<span id="gamma-display"></span>
+                </label>
+                <div id="gamma-slider" class="slider">
+                    <span class="sliderMin">0</span>
+                    <input type="range" id="gammaSec1" name="gamma" min="0" max="4" value="3">
+                    <span class="sliderMax">4</span>
+                </div>
+            </div>
+            <div id="jnormSec1" class="partial-sliders-container"
+                style="flex: 1 0 auto; display: flex; align-items: center; justify-content: flex-start;">
+                <div id="jnorm-slider" class="partial-sliders-container">
+                    <label for="jnorm" class="slider-label">J:<span id="jnorm-display"></span>
+                    </label>
+                </div>
+                <div id="jnorm-slider" class="slider">
+                    <span class="sliderMin">0</span>
+                    <input type="range" id="jnormSec1" name="jnorm" min="0" max="10" value="1" step="0.1">
+                    <span class="sliderMax">10</span>
+                </div>
+            </div>
+        </div>
+        <div id="graph3Sec1" style=" left: 30%; height: 100%; width: 70%;"></div>
+    </div>
+    <script src="scripts/ABR.js"></script>
+</body>
+
+</html>

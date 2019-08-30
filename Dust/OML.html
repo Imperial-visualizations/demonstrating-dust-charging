@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>OML - Charging Models - Imperial Visualisations</title>
+    <link rel="icon" href="https://www.imperial.ac.uk/T4Assets/favicon-196x196.png" type="image/x-icon">
+    <link rel="stylesheet"
+          href="styles/skeleton.css">
+    <link rel="stylesheet"
+          href="styles/style.css">
+
+   <script src="scripts/plotly-1.47.4.min.js"></script>
+    <script src="https://code.jquery.com/jquery-3.2.1.min.js"></script>
+    <script src="scripts/numeric/src/numeric.js"></script>
+    <script src="https://unpkg.com/mathjs@6.0.2/dist/math.min.js"></script>
+    <script type="text/x-mathjax-config">
+        MathJax.Hub.Config({
+          extensions: ["tex2jax.js"],
+          jax: ["input/TeX", "output/HTML-CSS"],
+          tex2jax: {
+            inlineMath: [ ['$','$'], ["\\(","\\)"] ],
+            displayMath: [ ['$$','$$'], ["\\[","\\]"] ],
+            processEscapes: true
+          },
+          "HTML-CSS": { fonts: ["TeX"] }
+        });
+      </script>
+    <script type="text/javascript" src="scripts/MathJax-master/MathJax.js"></script>
+    <meta http-equiv="Content-Type" content="text/html;charset=UTF-8">
+
+</head>
+
+<body>
+<!--Graphs-->
+<div id='graph1Sec2' style=" left: 1vw;height: 42vh;width:95%;"></div>
+<div id='graph2Sec2' style="left: 1vw;height: 42vh;width:95%;"></div>
+<!--Container for all Inputs-->
+<div class="inputsContainer" style="left: 1vw;height:10vh;width:95%;">
+    <div class="overall-sliders-container">
+        <!--Sliders-->
+        <div id="ZSec2" class="partial-sliders-container">
+            <label for="ZSec2" class="slider-label">Z:<span id="ZSec2-display"></span>
+            </label>
+            <div id="ZSec2-slider" class = "slider">
+                <span class="sliderMin">1</span>
+                <input type="range" id="ZSec2" name="ZSec2" min="1" max="10" value="1" step = "1">
+                <span class="sliderMax">10</span>                                
+            </div>                      
+        </div>
+
+    </div>   
+</div>
+<script src="scripts/OML.js"></script>
+</body>
+</html>

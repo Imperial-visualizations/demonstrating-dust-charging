@@ -1,0 +1,199 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>Animation - Charging Models - Imperial Visualisations</title>
+    <link rel="icon" href="https://www.imperial.ac.uk/T4Assets/favicon-196x196.png" type="image/x-icon">
+    <link rel="stylesheet" href="styles/skeleton.css">
+    <link rel="stylesheet" href="styles/style.css">
+
+    <script src="scripts/plotly-1.47.4.min.js"></script>
+    <script src="scripts/p5.min.js"></script>
+    <script src="https://code.jquery.com/jquery-3.2.1.min.js"></script>
+    <script src="scripts/numeric/src/numeric.js"></script>
+    <script src="https://unpkg.com/mathjs@6.0.2/dist/math.min.js"></script>
+    <script type="text/x-mathjax-config">
+        MathJax.Hub.Config({
+            extensions: ["tex2jax.js"],
+            jax: ["input/TeX", "output/HTML-CSS"],
+            tex2jax: {
+            inlineMath: [ ['$','$'], ["\\(","\\)"] ],
+            displayMath: [ ['$$','$$'], ["\\[","\\]"] ],
+            processEscapes: true
+            },
+            "HTML-CSS": { fonts: ["TeX"] }
+        });
+        </script>
+    <script type="text/javascript" src="scripts/MathJax-master/MathJax.js"></script>
+    <meta http-equiv="Content-Type" content="text/html;charset=UTF-8">
+
+</head>
+
+<body>
+    <div style="top: 1vh; height: 10vh; width: 100vw; padding-left:1vw; position: fixed; display: flex; align-items: center;">
+        <!--Text next to slider for user to choose charge strength and polarity-->
+        <div style="flex: 1 0 auto; display: flex; align-items: center; justify-content: flex-start;">
+            <label class="text" style="flex: 1 0 auto">
+                <font size="2">Relative charge: </font>
+                <output id="magnit_amount" name="magnit_amount" for="magnit">0.1</output>
+            </label>
+            <!--Slider for user to choose charge strength and polarity-->
+            <label class="slider" style="flex: 1 0 auto">
+                <input id="magnit" class="inputs" type="range" value="0.1" min="-1" max="1" step="0.1"
+                    oninput="magnit_amount.value=magnit.value" />
+            </label>
+        </div>
+
+        <div id="Beta" style="flex: 1 0 auto; display: flex; align-items: center; justify-content: flex-start;">
+            <!--Text next to slider for user to choose mass-->
+            <label class="text" style="flex: 1 0 auto">
+                <font size="2">Beta Power: </font><output id="Beta_amount" name="Beta_amount"
+                    for="BetaController">-1</output>
+            </label>
+            <!--Slider for user to choose mass-->
+            <label class="slider" style="flex: 1 0 auto">
+                <input id="BetaController" class="inputs" type="range" value="-1" min="-6" max="2" step="1"
+                    oninput="Beta_amount.value=BetaController.value" />
+            </label>
+        </div>
+
+        <div style="flex: 1 0 auto; display: flex; align-items: center; justify-content: flex-start;">
+            <!--Text next to slider for user to choose mass-->
+            <label class="text" style="flex: 1 0 auto">
+                <font size="2">B field ($n$T) </font><output id="Bfield_amount" name="Bfield_amount"
+                    for="Bfield">10</output>
+            </label>
+            <!--Slider for user to choose mass-->
+            <label class="slider" style="flex: 1 0 auto">
+                <input id="Bfield" class="inputs" type="range" value="10" min="-100" max="100" step="1"
+                    oninput="Bfield_amount.value=Bfield.value" />
+            </label>
+        </div>
+
+        <div style="flex: 1 0 auto; display: flex; align-items: center; justify-content: flex-start;">
+            <!--Text next to slider for user to choose mass-->
+            <label class="text" style="flex: 1 0 auto">
+                <font size="2">Play Speed Power:</font><output id="PlaySpeed_amount" name="PlaySpeed_amount"
+                    for="PlaySpeed">-2</output>
+            </label>
+            <!--Slider for user to choose mass-->
+            <label class="slider" style="flex: 1 0 auto">
+                <input id="PlaySpeed" class="inputs" type="range" value="-2" min="-5" max="-1" step="1"
+                    oninput="PlaySpeed_amount.value=PlaySpeed.value" />
+            </label>
+        </div>
+
+    </div>
+    <div style="top: 10vh; height: 10vh; width: 100vw; padding-left:1vw; position: fixed;">
+
+        <div style="width: 55vw; position: fixed; display: flex; align-items: center;">
+            <div id="scroll_field "
+                style="flex: 1 0 auto; display: flex; align-items: center; justify-content: flex-start;">
+                <div class="scroll_down">
+                    <select id="Select_field">
+                        <option value="Coulomb">Coulomb</option>
+                        <option value="Debye-Huckle" selected>Debye-Huckle</option>
+                    </select>
+                </div>
+            </div>
+            <div id="scroll_model"
+                style="flex: 1 0 auto; display: flex; align-items: center; justify-content: flex-start;">
+                <div class="scroll_down">
+                    <select id="Select_model">
+                        <option value="ABR">ABR</option>
+                        <option value="OML" selected>OML</option>
+                        <option value="MOML">MOML</option>
+                        <option value="SOML">SOML</option>
+                        <option value="SMOML">SMOML</option>
+                    </select>
+                </div>
+            </div>
+            <input type="button" id="calcbutton" name="calcbutton" value="Calculate Q"
+                style="flex: 0 0 auto; display: flex; align-items: center; justify-content: flex-start;">
+            <label class="text"
+                style="flex: 1 0 auto; display: flex; align-items: center; justify-content: flex-start;">
+                <font size="3" style="padding-left:1vw; padding-bottom:0.2vw">Grain Charge:</font><span id="grain_charge" style="padding-left:1vw"></span>
+            </label>
+        </div>
+
+        <div style="width: 30vw; left: 65vw; position: fixed; display: flex; align-items: center;">
+            <div id="J" style="flex: 1 0 auto; display: flex; align-items: center; justify-content: flex-start;">
+                <!--Text next to slider for user to choose mass-->
+                <label class="text" style="flex: 1 0 auto">
+                    <font size="2">J: </font><output id="J_amount" name="J_amount" for="JController">1</output>
+                </label>
+                <!--Slider for user to choose mass-->
+                <label class="slider" style="flex: 1 0 auto">
+                    <input id="JController" class="inputs" type="range" value="1" min="-6" max="0" step="6"
+                        oninput="J_amount.value=JController.value" />
+                </label>
+            </div>
+
+            <div id="Z" style="flex: 1 0 auto; display: flex; align-items: center; justify-content: flex-start;">
+                <!--Text next to slider for user to choose mass-->
+                <label class="text" style="flex: 1 0 auto">
+                    <font size="2">Z: </font><output id="Z_amount" name="Z_amount" for="ZController">1</output>
+                </label>
+                <!--Slider for user to choose mass-->
+                <label class="slider" style="flex: 1 0 auto">
+                    <input id="ZController" class="inputs" type="range" value="1" min="1" max="20" step="1"
+                        oninput="Z_amount.value=ZController.value" />
+                </label>
+            </div>
+
+            <div id="Gamma" style="flex: 1 0 auto; display: flex; align-items: center; justify-content: flex-start;">
+                <!--Text next to slider for user to choose mass-->
+                <label class="text" style="flex: 1 0 auto">
+                    <font size="2">Gamma: </font><output id="Gamma_amount" name="Gamma_amount"
+                        for="GammaController">1</output>
+                </label>
+                <!--Slider for user to choose mass-->
+                <label class="slider" style="flex: 1 0 auto">
+                    <input id="GammaController" class="inputs" type="range" value="1" min="0" max="10" step="0.1"
+                        oninput="Gamma_amount.value=GammaController.value" />
+                </label>
+            </div>
+
+            <div id="U" style="flex: 1 0 auto; display: flex; align-items: center; justify-content: flex-start;">
+                <!--Text next to slider for user to choose mass-->
+                <label class="text" style="flex: 1 0 auto">
+                    <font size="2">U: </font><output id="U_amount" name="U_amount" for="UController">1</output>
+                </label>
+                <!--Slider for user to choose mass-->
+                <label class="slider" style="flex: 1 0 auto">
+                    <input id="UController" class="inputs" type="range" value="1" min="0" max="10" step="0.1"
+                        oninput="U_amount.value=UController.value" />
+                </label>
+            </div>
+        </div>
+
+    </div>
+    <div style="top: 20vh; height: 10vh; width: 100vw; padding-left:1vw; position: fixed; display: flex; align-items: center;-khtml-user-select: none;
+    -o-user-select: none;-moz-user-select: none;-webkit-user-select: none;user-select: none;">
+        <label class="text" style="flex: 1 0 auto">
+            <font size="3">Add B field</font>
+        </label>
+        <input type="checkbox" id="BOption" name="BOption" style="flex: 1 0 auto" unchecked>
+        <label class="text" style="flex: 1 0 auto">
+            <font size="3">Add Traces</font>
+        </label>
+        <input type="checkbox" id="TraceOption" name="traceOption" style="flex: 1 0 auto" checked>
+        <label class="text" style="flex: 1 0 auto">
+            <font size="3">Show critical parameter</font>
+        </label>
+        <input type="checkbox" id="CritOption" name="CritOption" style="flex: 1 0 auto" unchecked>
+        <input type="button" id="spambutton" name="spambutton" style="flex: 1 0 auto" value="spam">
+        <input type="button" id="sourcebutton" name="sourcebutton" style="flex: 1 0 auto" value="source">
+        <input type="button" id="resetbutton" name="resetbutton" style="flex: 1 0 auto" value="reset">
+        <label class="text" style="flex: 1 0 auto">
+            <font size="3" style="padding-left:1vw">Drag to add</font>
+        </label>
+    </div>
+    <!--p5 canvas for drawing charges, fieldlines and loop-->
+    <label id="sketch-holder" style="height: 100vh; width: 100vw;">
+        <script src="scripts/Animation.js"></script>
+</body>
+
+</html>
